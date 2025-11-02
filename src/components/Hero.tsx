@@ -49,6 +49,7 @@ const Hero = () => {
               size="lg" 
               variant="hero"
               className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
+              onClick={() => window.location.href = '/auth'}
             >
               Começar agora
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -57,6 +58,7 @@ const Hero = () => {
               size="lg" 
               variant="hero-outline"
               className="text-lg px-8 py-6"
+              onClick={() => document.querySelector('#funcionalidades')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Conhecer a Portella
             </Button>

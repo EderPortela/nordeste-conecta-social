@@ -21,13 +21,10 @@ const Navbar = () => {
             <a href="#funcionalidades" className="text-foreground hover:text-primary transition-colors">
               Funcionalidades
             </a>
-            <a href="#comunidade" className="text-foreground hover:text-primary transition-colors">
-              Comunidade
-            </a>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => window.location.href = '/auth'}>
               Entrar
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={() => window.location.href = '/auth'}>
               Cadastrar
             </Button>
           </div>
