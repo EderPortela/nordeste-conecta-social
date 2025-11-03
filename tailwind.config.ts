@@ -57,6 +57,11 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Cores nordestinas para reações
+        arretado: "hsl(var(--arretado))",
+        massa: "hsl(var(--massa))",
+        oxente: "hsl(var(--oxente))",
+        "cabra-bom": "hsl(var(--cabra-bom))",
       },
       borderRadius: {
         lg: "var(--radius)",

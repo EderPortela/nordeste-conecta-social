@@ -3,11 +3,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Heart, MessageCircle, Trash2, MapPin, Share2, Bookmark } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import CommentSection from "./CommentSection";
+import ReactionPicker from "./ReactionPicker";
 
 interface PostCardProps {
   post: {
@@ -32,6 +34,8 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(post.like_count);
+  const [currentReaction, setCurrentReaction] = useState<string | undefined>();
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     checkIfLiked();
@@ -53,9 +57,10 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
     }
   };
 
-  const handleLike = async () => {
+  const handleReaction = async (reaction: string) => {
     try {
-      if (isLiked) {
+      if (currentReaction === reaction) {
+        // Remove reaction
         const { error } = await supabase
           .from("post_likes")
           .delete()
@@ -63,9 +68,22 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           .eq("user_id", currentUserId);
 
         if (error) throw error;
+        setCurrentReaction(undefined);
         setIsLiked(false);
         setLocalLikeCount(prev => prev - 1);
       } else {
+        // Add or update reaction
+        if (isLiked) {
+          // Update existing like
+          const { error } = await supabase
+            .from("post_likes")
+            .delete()
+            .eq("post_id", post.id)
+            .eq("user_id", currentUserId);
+
+          if (error) throw error;
+        }
+
         const { error } = await supabase
           .from("post_likes")
           .insert({
@@ -74,8 +92,11 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           });
 
         if (error) throw error;
+        setCurrentReaction(reaction);
         setIsLiked(true);
-        setLocalLikeCount(prev => prev + 1);
+        if (!isLiked) {
+          setLocalLikeCount(prev => prev + 1);
+        }
       }
     } catch (error: any) {
       toast({
@@ -84,6 +105,14 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleSave = () => {
+    setIsSaved(!isSaved);
+    toast({
+      title: isSaved ? "Post removido dos salvos" : "Post salvo",
+      description: isSaved ? "" : "Você pode ver depois!",
+    });
   };
 
   const handleDelete = async () => {
@@ -126,70 +155,117 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   };
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center gap-3 pb-3">
-        <Avatar>
-          <AvatarFallback className="bg-primary text-primary-foreground">
-            {post.display_name.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex-1">
-          <p className="font-semibold text-foreground">{post.display_name}</p>
-          <p className="text-sm text-muted-foreground">@{post.username}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">
-            {formatDistanceToNow(new Date(post.created_at), {
-              addSuffix: true,
-              locale: ptBR,
-            })}
-          </span>
+    <Card className="rounded-2xl shadow-card hover:shadow-hover transition-all border-border overflow-hidden">
+      <CardHeader className="pb-3 bg-gradient-to-b from-muted/30 to-transparent">
+        <div className="flex items-start gap-3">
+          <Avatar className="h-12 w-12 border-2 border-primary/20">
+            <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground font-bold text-lg">
+              {post.display_name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="font-bold text-foreground text-base">{post.display_name}</p>
+              <span className="text-sm text-muted-foreground">@{post.username}</span>
+            </div>
+            <div className="flex items-center gap-2 mt-1">
+              <MapPin className="h-3 w-3 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">
+                {formatDistanceToNow(new Date(post.created_at), {
+                  addSuffix: true,
+                  locale: ptBR,
+                })}
+              </span>
+            </div>
+          </div>
           {post.user_id === currentUserId && (
             <Button
               variant="ghost"
               size="icon"
               onClick={handleDelete}
-              className="h-8 w-8"
+              className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive"
             >
-              <Trash2 className="h-4 w-4 text-destructive" />
+              <Trash2 className="h-4 w-4" />
             </Button>
           )}
         </div>
       </CardHeader>
 
-      <CardContent className="pb-3">
-        <p className="text-foreground whitespace-pre-wrap">
+      <CardContent className="pb-4 space-y-4">
+        <p className="text-foreground whitespace-pre-wrap text-base leading-relaxed">
           {renderContent(post.content)}
         </p>
+
+        {post.hashtags && post.hashtags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {post.hashtags.map((tag, index) => (
+              <Badge
+                key={index}
+                variant="secondary"
+                className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+              >
+                #{tag}
+              </Badge>
+            ))}
+          </div>
+        )}
       </CardContent>
 
-      <CardFooter className="flex flex-col gap-3 pt-3 border-t">
-        <div className="flex gap-4 w-full">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLike}
-            className={isLiked ? "text-red-500" : ""}
-          >
-            <Heart className={`mr-2 h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
-            {localLikeCount}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowComments(!showComments)}
-          >
-            <MessageCircle className="mr-2 h-4 w-4" />
-            {post.comment_count}
-          </Button>
+      <CardFooter className="flex flex-col gap-3 pt-3 border-t border-border/50">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-1">
+            <ReactionPicker
+              postId={post.id}
+              currentReaction={currentReaction}
+              onReact={handleReaction}
+            />
+            <span className="text-sm text-muted-foreground ml-2">
+              {localLikeCount > 0 && `${localLikeCount} ${localLikeCount === 1 ? 'cabra gostou' : 'cabras gostaram'}`}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowComments(!showComments)}
+              className="hover:bg-primary/10 hover:text-primary transition-colors"
+            >
+              <MessageCircle className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">
+                {post.comment_count > 0 ? `${post.comment_count}` : 'Comentar'}
+              </span>
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-accent/10 hover:text-accent transition-colors"
+            >
+              <Share2 className="h-4 w-4" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleSave}
+              className={`hover:bg-secondary/10 transition-colors ${
+                isSaved ? "text-secondary" : ""
+              }`}
+            >
+              <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
+            </Button>
+          </div>
         </div>
 
         {showComments && (
-          <CommentSection
-            postId={post.id}
-            currentUserId={currentUserId}
-            onCommentAdded={onUpdate}
-          />
+          <div className="w-full pt-3 border-t border-border/50 animate-fade-in">
+            <CommentSection
+              postId={post.id}
+              currentUserId={currentUserId}
+              onCommentAdded={onUpdate}
+            />
+          </div>
         )}
       </CardFooter>
     </Card>
