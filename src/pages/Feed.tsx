@@ -165,13 +165,7 @@ const Feed = () => {
               location: profile.location || undefined,
             }}
             activeRoute="/feed"
-            onNavigate={(route) => {
-              if (route === "/feed") return;
-              toast({
-                title: "Em breve!",
-                description: "Esta funcionalidade estará disponível em breve.",
-              });
-            }}
+            onNavigate={(route) => navigate(route)}
             onNewPost={() => setShowCreatePost(!showCreatePost)}
           />
 
@@ -250,11 +244,7 @@ const Feed = () => {
               activeRoute="/feed"
               onNavigate={(route) => {
                 setShowMobileMenu(false);
-                if (route === "/feed") return;
-                toast({
-                  title: "Em breve!",
-                  description: "Esta funcionalidade estará disponível em breve.",
-                });
+                navigate(route);
               }}
               onNewPost={() => {
                 setShowMobileMenu(false);

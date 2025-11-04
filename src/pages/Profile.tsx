@@ -11,19 +11,17 @@ import { Separator } from "@/components/ui/separator";
 import { 
   MapPin, 
   Calendar, 
-  Link as LinkIcon, 
   Edit, 
   Camera,
   Heart,
   MessageCircle,
-  Share2,
-  Users,
   Image as ImageIcon,
   Info
 } from "lucide-react";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
 import PostCard from "@/components/PostCard";
+import EditProfileDialog from "@/components/EditProfileDialog";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -63,6 +61,9 @@ const Profile = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("posts");
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
   const [stats, setStats] = useState({
     followers: 0,
     following: 0,
@@ -156,18 +157,85 @@ const Profile = () => {
 
   const loadStats = async (userId: string) => {
     try {
-      const { data: postsData } = await supabase
-        .from("posts")
-        .select("id", { count: "exact" })
-        .eq("user_id", userId);
+      const { data: statsData, error } = await supabase
+        .from("profile_stats")
+        .select("followers_count, following_count, posts_count")
+        .eq("id", userId)
+        .single();
+
+      if (error) throw error;
 
       setStats({
-        followers: Math.floor(Math.random() * 500) + 50, // Mock data
-        following: Math.floor(Math.random() * 300) + 30, // Mock data
-        posts: postsData?.length || 0,
+        followers: statsData?.followers_count || 0,
+        following: statsData?.following_count || 0,
+        posts: statsData?.posts_count || 0,
       });
+
+      // Check if current user is following this profile
+      if (currentUser && currentUser.id !== userId) {
+        const { data: followData } = await supabase
+          .from("followers")
+          .select("id")
+          .eq("follower_id", currentUser.id)
+          .eq("following_id", userId)
+          .single();
+
+        setIsFollowing(!!followData);
+      }
     } catch (error: any) {
       console.error("Error loading stats:", error);
+    }
+  };
+
+  const handleFollow = async () => {
+    if (!currentUser || !profile) return;
+
+    setFollowLoading(true);
+    try {
+      if (isFollowing) {
+        // Unfollow
+        const { error } = await supabase
+          .from("followers")
+          .delete()
+          .eq("follower_id", currentUser.id)
+          .eq("following_id", profile.id);
+
+        if (error) throw error;
+
+        setIsFollowing(false);
+        setStats((prev) => ({ ...prev, followers: prev.followers - 1 }));
+        
+        toast({
+          title: "Deixou de seguir",
+          description: `Você não segue mais @${profile.username}`,
+        });
+      } else {
+        // Follow
+        const { error } = await supabase
+          .from("followers")
+          .insert({
+            follower_id: currentUser.id,
+            following_id: profile.id,
+          });
+
+        if (error) throw error;
+
+        setIsFollowing(true);
+        setStats((prev) => ({ ...prev, followers: prev.followers + 1 }));
+        
+        toast({
+          title: "Seguindo! 🎉",
+          description: `Você agora segue @${profile.username}`,
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setFollowLoading(false);
     }
   };
 
@@ -237,14 +305,23 @@ const Profile = () => {
                   </div>
 
                   {isOwnProfile ? (
-                    <Button variant="outline" className="mt-4 hover-lift">
+                    <Button 
+                      variant="outline" 
+                      className="mt-4 hover-lift"
+                      onClick={() => setShowEditDialog(true)}
+                    >
                       <Edit className="h-4 w-4 mr-2" />
                       Editar Perfil
                     </Button>
                   ) : (
                     <div className="flex gap-2 mt-4">
-                      <Button className="hover-lift shadow-soft">
-                        Seguir
+                      <Button 
+                        className="hover-lift shadow-soft min-w-[100px]"
+                        onClick={handleFollow}
+                        disabled={followLoading}
+                        variant={isFollowing ? "outline" : "default"}
+                      >
+                        {followLoading ? "..." : isFollowing ? "Seguindo" : "Seguir"}
                       </Button>
                       <Button variant="outline" className="hover-lift">
                         <MessageCircle className="h-4 w-4 mr-2" />
@@ -411,6 +488,16 @@ const Profile = () => {
           <RightSidebar />
         </div>
       </div>
+
+      {/* Edit Profile Dialog */}
+      {isOwnProfile && profile && (
+        <EditProfileDialog
+          open={showEditDialog}
+          onOpenChange={setShowEditDialog}
+          profile={profile}
+          onSuccess={loadProfile}
+        />
+      )}
     </div>
   );
 };
