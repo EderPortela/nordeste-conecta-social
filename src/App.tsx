@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
+import Descobrir from "./pages/Descobrir";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/feed" element={<Feed />} />
           <Route path="/perfil" element={<Profile />} />
           <Route path="/perfil/:username" element={<Profile />} />
+          <Route path="/descobrir" element={<Descobrir />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,8 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { 
   MapPin, 
   Calendar, 
-  Edit, 
-  Camera,
+  Edit,
   Heart,
   MessageCircle,
   Image as ImageIcon,
@@ -22,6 +21,7 @@ import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
 import PostCard from "@/components/PostCard";
 import EditProfileDialog from "@/components/EditProfileDialog";
+import PhotoGalleryModal from "@/components/PhotoGalleryModal";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -32,6 +32,7 @@ interface Profile {
   display_name: string;
   bio: string | null;
   avatar_url: string | null;
+  cover_url: string | null;
   location: string | null;
   created_at: string;
   updated_at: string;
@@ -64,6 +65,9 @@ const Profile = () => {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  const [photos, setPhotos] = useState<{ url: string; post_id: string; created_at: string }[]>([]);
   const [stats, setStats] = useState({
     followers: 0,
     following: 0,
@@ -150,6 +154,16 @@ const Profile = () => {
 
       if (error) throw error;
       setPosts(data || []);
+
+      // Extract photos for gallery
+      const postPhotos = (data || [])
+        .filter((post) => post.image_url)
+        .map((post) => ({
+          url: post.image_url,
+          post_id: post.id,
+          created_at: post.created_at,
+        }));
+      setPhotos(postPhotos);
     } catch (error: any) {
       console.error("Error loading posts:", error);
     }
@@ -271,15 +285,13 @@ const Profile = () => {
             {/* Profile Header Card */}
             <Card className="rounded-2xl shadow-card border border-border overflow-hidden mb-6">
               {/* Cover Photo */}
-              <div className="relative h-64 bg-gradient-to-br from-primary via-secondary to-accent">
-                {isOwnProfile && (
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="absolute bottom-4 right-4 rounded-full shadow-lg hover-lift"
-                  >
-                    <Camera className="h-4 w-4" />
-                  </Button>
+              <div className="relative h-64 bg-gradient-to-br from-primary via-secondary to-accent overflow-hidden">
+                {profile.cover_url && (
+                  <img
+                    src={profile.cover_url}
+                    alt="Cover"
+                    className="w-full h-full object-cover"
+                  />
                 )}
               </div>
 
@@ -289,19 +301,14 @@ const Profile = () => {
                 <div className="flex justify-between items-start -mt-16 mb-4">
                   <div className="relative">
                     <Avatar className="h-32 w-32 border-4 border-background shadow-glow">
-                      <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground text-4xl font-bold">
-                        {profile.display_name.charAt(0).toUpperCase()}
-                      </AvatarFallback>
+                      {profile.avatar_url ? (
+                        <AvatarImage src={profile.avatar_url} alt={profile.display_name} />
+                      ) : (
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground text-4xl font-bold">
+                          {profile.display_name.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      )}
                     </Avatar>
-                    {isOwnProfile && (
-                      <Button
-                        size="icon"
-                        variant="secondary"
-                        className="absolute bottom-0 right-0 rounded-full h-8 w-8 shadow-lg"
-                      >
-                        <Camera className="h-3 w-3" />
-                      </Button>
-                    )}
                   </div>
 
                   {isOwnProfile ? (
@@ -471,15 +478,37 @@ const Profile = () => {
 
               {/* Photos Tab */}
               <TabsContent value="photos">
-                <Card className="rounded-2xl shadow-card border border-border p-16 text-center">
-                  <div className="text-6xl mb-4">📷</div>
-                  <p className="text-xl font-semibold text-foreground mb-2">
-                    Galeria de Fotos
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Em breve você poderá ver todas as fotos aqui!
-                  </p>
-                </Card>
+                {photos.length === 0 ? (
+                  <Card className="rounded-2xl shadow-card border border-border p-16 text-center">
+                    <div className="text-6xl mb-4">📷</div>
+                    <p className="text-xl font-semibold text-foreground mb-2">
+                      Nenhuma foto ainda
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {isOwnProfile ? "Compartilhe fotos nos seus posts!" : "Este usuário ainda não compartilhou fotos."}
+                    </p>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-3 gap-2 md:gap-4">
+                    {photos.map((photo, index) => (
+                      <button
+                        key={photo.post_id}
+                        onClick={() => {
+                          setSelectedPhotoIndex(index);
+                          setShowGallery(true);
+                        }}
+                        className="relative aspect-square rounded-xl overflow-hidden group hover-scale cursor-pointer"
+                      >
+                        <img
+                          src={photo.url}
+                          alt={`Foto ${index + 1}`}
+                          className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </TabsContent>
             </Tabs>
           </main>
@@ -498,6 +527,14 @@ const Profile = () => {
           onSuccess={loadProfile}
         />
       )}
+
+      {/* Photo Gallery Modal */}
+      <PhotoGalleryModal
+        photos={photos}
+        initialIndex={selectedPhotoIndex}
+        open={showGallery}
+        onOpenChange={setShowGallery}
+      />
     </div>
   );
 };
