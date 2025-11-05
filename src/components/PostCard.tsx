@@ -17,6 +17,7 @@ interface PostCardProps {
     user_id: string;
     content: string;
     image_url: string | null;
+    video_url?: string | null;
     hashtags: string[];
     created_at: string;
     username: string;
@@ -44,67 +45,26 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   const checkIfLiked = async () => {
     try {
       const { data, error } = await supabase
-        .from("post_likes")
-        .select("id")
+        .from("post_reactions" as any)
+        .select("reaction_type")
         .eq("post_id", post.id)
         .eq("user_id", currentUserId)
         .maybeSingle();
 
-      if (error) throw error;
-      setIsLiked(!!data);
+      if (error && error.code !== 'PGRST116') throw error;
+      
+      if (data && (data as any).reaction_type) {
+        setCurrentReaction((data as any).reaction_type);
+        setIsLiked(true);
+      }
     } catch (error) {
-      console.error("Error checking like:", error);
+      console.error("Error checking reaction:", error);
     }
   };
 
-  const handleReaction = async (reaction: string) => {
-    try {
-      if (currentReaction === reaction) {
-        // Remove reaction
-        const { error } = await supabase
-          .from("post_likes")
-          .delete()
-          .eq("post_id", post.id)
-          .eq("user_id", currentUserId);
-
-        if (error) throw error;
-        setCurrentReaction(undefined);
-        setIsLiked(false);
-        setLocalLikeCount(prev => prev - 1);
-      } else {
-        // Add or update reaction
-        if (isLiked) {
-          // Update existing like
-          const { error } = await supabase
-            .from("post_likes")
-            .delete()
-            .eq("post_id", post.id)
-            .eq("user_id", currentUserId);
-
-          if (error) throw error;
-        }
-
-        const { error } = await supabase
-          .from("post_likes")
-          .insert({
-            post_id: post.id,
-            user_id: currentUserId,
-          });
-
-        if (error) throw error;
-        setCurrentReaction(reaction);
-        setIsLiked(true);
-        if (!isLiked) {
-          setLocalLikeCount(prev => prev + 1);
-        }
-      }
-    } catch (error: any) {
-      toast({
-        title: "Erro",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
+  const handleReactionChange = () => {
+    checkIfLiked();
+    onUpdate();
   };
 
   const handleSave = () => {
@@ -196,6 +156,22 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           {renderContent(post.content)}
         </p>
 
+        {post.image_url && (
+          <img
+            src={post.image_url}
+            alt="Post content"
+            className="w-full rounded-lg object-cover max-h-[500px]"
+          />
+        )}
+
+        {post.video_url && (
+          <video
+            src={post.video_url}
+            controls
+            className="w-full rounded-lg max-h-[500px]"
+          />
+        )}
+
         {post.hashtags && post.hashtags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {post.hashtags.map((tag, index) => (
@@ -216,8 +192,9 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           <div className="flex items-center gap-1">
             <ReactionPicker
               postId={post.id}
-              currentReaction={currentReaction}
-              onReact={handleReaction}
+              currentUserId={currentUserId}
+              currentReaction={currentReaction || null}
+              onReactionChange={handleReactionChange}
             />
             <span className="text-sm text-muted-foreground ml-2">
               {localLikeCount > 0 && `${localLikeCount} ${localLikeCount === 1 ? 'cabra gostou' : 'cabras gostaram'}`}

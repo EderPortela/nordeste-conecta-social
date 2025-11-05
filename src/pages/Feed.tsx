@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { LogOut, Menu } from "lucide-react";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
+import StoriesBar from "@/components/StoriesBar";
 import { useToast } from "@/hooks/use-toast";
 
 interface Profile {
@@ -23,6 +25,7 @@ interface Post {
   user_id: string;
   content: string;
   image_url: string | null;
+  video_url?: string | null;
   hashtags: string[];
   created_at: string;
   username: string;
@@ -171,6 +174,13 @@ const Feed = () => {
 
           {/* CENTER COLUMN - Feed de Postagens (Principal) */}
           <main className="flex-1 max-w-3xl mx-auto lg:mx-0 w-full">
+            {/* Stories */}
+            <Card className="mb-6">
+              <CardContent className="pt-6">
+                <StoriesBar currentUserId={user.id} />
+              </CardContent>
+            </Card>
+
             {/* Create Post Form */}
             {showCreatePost && (
               <div className="mb-6 animate-fade-in">
