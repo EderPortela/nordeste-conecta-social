@@ -58,7 +58,8 @@ const Marketplace = () => {
 
   const loadProducts = async () => {
     try {
-      const { data, error } = await supabase
+      // Using type assertion until types are regenerated
+      const { data, error } = await (supabase as any)
         .from("products_with_seller")
         .select("*")
         .order("created_at", { ascending: false });
@@ -72,13 +73,14 @@ const Marketplace = () => {
 
   const loadCartCount = async (userId: string) => {
     try {
-      const { data, error } = await supabase
+      // Using type assertion until types are regenerated
+      const { data, error } = await (supabase as any)
         .from("cart_items")
         .select("quantity", { count: "exact" })
         .eq("user_id", userId);
 
       if (error) throw error;
-      const total = data?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+      const total = data?.reduce((sum: number, item: any) => sum + item.quantity, 0) || 0;
       setCartCount(total);
     } catch (error: any) {
       console.error("Error loading cart:", error);
@@ -89,7 +91,8 @@ const Marketplace = () => {
     if (!currentUser) return;
 
     try {
-      const { error } = await supabase
+      // Using type assertion until types are regenerated
+      const { error } = await (supabase as any)
         .from("cart_items")
         .upsert({
           user_id: currentUser.id,

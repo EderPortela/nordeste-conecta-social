@@ -50,7 +50,8 @@ const Communities = () => {
 
   const loadCommunities = async (userId: string) => {
     try {
-      const { data, error } = await supabase
+      // Using type assertion until types are regenerated
+      const { data, error } = await (supabase as any)
         .from("communities_with_stats")
         .select("*")
         .order("member_count", { ascending: false });
@@ -59,8 +60,8 @@ const Communities = () => {
 
       // Check membership for each community
       const communitiesWithMembership = await Promise.all(
-        (data || []).map(async (community) => {
-          const { data: memberData } = await supabase
+        (data || []).map(async (community: any) => {
+          const { data: memberData } = await (supabase as any)
             .from("community_members")
             .select("id")
             .eq("community_id", community.id)
@@ -84,7 +85,8 @@ const Communities = () => {
     if (!currentUser) return;
 
     try {
-      const { data, error } = await supabase
+      // Using type assertion until types are regenerated
+      const { data, error } = await (supabase as any)
         .from("communities")
         .insert({
           ...newCommunity,
@@ -96,7 +98,7 @@ const Communities = () => {
       if (error) throw error;
 
       // Automatically join the created community
-      await supabase
+      await (supabase as any)
         .from("community_members")
         .insert({
           community_id: data.id,
@@ -125,7 +127,8 @@ const Communities = () => {
 
     try {
       if (isMember) {
-        await supabase
+        // Using type assertion until types are regenerated
+        await (supabase as any)
           .from("community_members")
           .delete()
           .eq("community_id", communityId)
@@ -135,7 +138,8 @@ const Communities = () => {
           title: "Você saiu da comunidade",
         });
       } else {
-        await supabase
+        // Using type assertion until types are regenerated
+        await (supabase as any)
           .from("community_members")
           .insert({
             community_id: communityId,

@@ -51,8 +51,8 @@ const GamificationBadge = ({ userId }: GamificationBadgeProps) => {
 
   const loadGamificationData = async () => {
     try {
-      // Load XP data
-      const { data: xpData } = await supabase
+      // Load XP data - using type assertion until types are regenerated
+      const { data: xpData } = await (supabase as any)
         .from("user_xp")
         .select("*")
         .eq("user_id", userId)
@@ -62,8 +62,8 @@ const GamificationBadge = ({ userId }: GamificationBadgeProps) => {
         setXpData(xpData);
       }
 
-      // Load badges
-      const { data: badgesData } = await supabase
+      // Load badges - using type assertion until types are regenerated
+      const { data: badgesData } = await (supabase as any)
         .from("user_badges")
         .select("*")
         .eq("user_id", userId);
