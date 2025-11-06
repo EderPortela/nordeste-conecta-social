@@ -22,6 +22,7 @@ import RightSidebar from "@/components/RightSidebar";
 import PostCard from "@/components/PostCard";
 import EditProfileDialog from "@/components/EditProfileDialog";
 import PhotoGalleryModal from "@/components/PhotoGalleryModal";
+import GamificationBadge from "@/components/GamificationBadge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";

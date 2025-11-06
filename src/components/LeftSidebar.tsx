@@ -20,7 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 
 interface LeftSidebarProps {
-  profile: {
+  profile?: {
     username: string;
     display_name: string;
     location?: string;
@@ -33,6 +33,8 @@ interface LeftSidebarProps {
 const menuItems = [
   { id: "home", label: "Início", icon: Home, route: "/feed" },
   { id: "discover", label: "Descobrir", icon: Search, route: "/descobrir" },
+  { id: "marketplace", label: "Feira Nordestina", icon: Soup, route: "/marketplace" },
+  { id: "communities", label: "Vilarejos", icon: MapPin, route: "/comunidades" },
   { id: "messages", label: "Mensagens", icon: MessageCircle, route: "/mensagens" },
   { id: "profile", label: "Perfil", icon: User, route: "/perfil" },
   { id: "settings", label: "Configurações", icon: Settings, route: "/configuracoes" },
@@ -85,38 +87,40 @@ const LeftSidebar = ({ profile, activeRoute = "/feed", onNavigate, onNewPost }: 
         <Separator />
 
         {/* Perfil Rápido */}
-        <div className="bg-card rounded-2xl shadow-card p-4 border border-border mx-2">
-          <div className="flex items-center gap-3 mb-3">
-            <Avatar className="h-12 w-12 border-2 border-primary/20">
-              <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground font-bold">
-                {profile.display_name.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-sm truncate">{profile.display_name}</p>
-              <p className="text-xs text-muted-foreground truncate">@{profile.username}</p>
+        {profile && (
+          <div className="bg-card rounded-2xl shadow-card p-4 border border-border mx-2">
+            <div className="flex items-center gap-3 mb-3">
+              <Avatar className="h-12 w-12 border-2 border-primary/20">
+                <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground font-bold">
+                  {profile.display_name.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm truncate">{profile.display_name}</p>
+                <p className="text-xs text-muted-foreground truncate">@{profile.username}</p>
+              </div>
             </div>
+            
+            {profile.location && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                <MapPin className="h-3 w-3" />
+                <span>{profile.location}</span>
+              </div>
+            )}
+
+            <Badge variant="secondary" className="w-full justify-center bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border-primary/20">
+              Cabra Arretado
+            </Badge>
+
+            <Button 
+              className="w-full mt-3 shadow-soft hover:shadow-hover transition-all"
+              onClick={onNewPost}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Novo Post
+            </Button>
           </div>
-          
-          {profile.location && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-              <MapPin className="h-3 w-3" />
-              <span>{profile.location}</span>
-            </div>
-          )}
-
-          <Badge variant="secondary" className="w-full justify-center bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border-primary/20">
-            Cabra Arretado
-          </Badge>
-
-          <Button 
-            className="w-full mt-3 shadow-soft hover:shadow-hover transition-all"
-            onClick={onNewPost}
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Post
-          </Button>
-        </div>
+        )}
 
         <Separator />
 
