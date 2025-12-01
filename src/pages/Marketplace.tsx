@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { MapPin, Search, ShoppingCart } from "lucide-react";
+import { MapPin, Search, ShoppingCart, Soup } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Product {
@@ -33,6 +33,7 @@ const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [cartCount, setCartCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const categories = [
     "all",
@@ -58,6 +59,7 @@ const Marketplace = () => {
 
   const loadProducts = async () => {
     try {
+      setLoading(true);
       // Using type assertion until types are regenerated
       const { data, error } = await (supabase as any)
         .from("products_with_seller")
@@ -68,6 +70,13 @@ const Marketplace = () => {
       setProducts(data || []);
     } catch (error: any) {
       console.error("Error loading products:", error);
+      toast({
+        title: "Erro ao carregar produtos",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,7 +140,10 @@ const Marketplace = () => {
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-3">
-            <LeftSidebar />
+            <LeftSidebar 
+              activeRoute="/marketplace"
+              onNavigate={(route) => navigate(route)}
+            />
           </div>
 
           <div className="col-span-12 lg:col-span-6">
@@ -169,8 +181,32 @@ const Marketplace = () => {
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {filteredProducts.map(product => (
+              {loading ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                  <p className="mt-4 text-muted-foreground">Carregando produtos...</p>
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="col-span-2 text-center py-12">
+                  <div className="max-w-md mx-auto">
+                    <Soup className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2">Nenhum produto encontrado</h3>
+                    <p className="text-muted-foreground mb-6">
+                      {searchTerm || selectedCategory !== "all" 
+                        ? "Tente ajustar seus filtros de busca" 
+                        : "Seja o primeiro a adicionar produtos na feira!"}
+                    </p>
+                    <Button onClick={() => {
+                      setSearchTerm("");
+                      setSelectedCategory("all");
+                    }}>
+                      Limpar Filtros
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filteredProducts.map(product => (
                   <Card key={product.id} className="overflow-hidden">
                     {product.image_url && (
                       <div className="aspect-video overflow-hidden">
@@ -221,8 +257,9 @@ const Marketplace = () => {
                       </Button>
                     </CardFooter>
                   </Card>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
