@@ -233,7 +233,10 @@ const CommunityPage = () => {
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-3">
-            <LeftSidebar />
+            <LeftSidebar 
+              activeRoute="/comunidades"
+              onNavigate={(route) => navigate(route)}
+            />
           </div>
 
           <div className="col-span-12 lg:col-span-6">
