@@ -15,7 +15,8 @@ import {
   Scissors,
   MapPin,
   Plus,
-  TrendingUp
+  TrendingUp,
+  Trophy
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,7 @@ const menuItems = [
   { id: "discover", label: "Descobrir", icon: Search, route: "/descobrir" },
   { id: "marketplace", label: "Feira Nordestina", icon: Soup, route: "/marketplace" },
   { id: "communities", label: "Vilarejos", icon: MapPin, route: "/comunidades" },
+  { id: "conquistas", label: "Conquistas", icon: Trophy, route: "/conquistas" },
   { id: "messages", label: "Mensagens", icon: MessageCircle, route: "/mensagens" },
   { id: "profile", label: "Perfil", icon: User, route: "/perfil" },
   { id: "settings", label: "Configurações", icon: Settings, route: "/configuracoes" },

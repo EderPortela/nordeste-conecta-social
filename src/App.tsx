@@ -13,6 +13,7 @@ import Communities from "./pages/Communities";
 import CommunityPage from "./pages/CommunityPage";
 import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
+import Conquistas from "./pages/Conquistas";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/comunidades/:communityId" element={<CommunityPage />} />
           <Route path="/mensagens" element={<Messages />} />
           <Route path="/configuracoes" element={<Settings />} />
+          <Route path="/conquistas" element={<Conquistas />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
