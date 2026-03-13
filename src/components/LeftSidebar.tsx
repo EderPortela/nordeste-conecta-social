@@ -16,7 +16,8 @@ import {
   MapPin,
   Plus,
   TrendingUp,
-  Trophy
+  Trophy,
+  CalendarDays
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

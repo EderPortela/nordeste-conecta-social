@@ -262,6 +262,16 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           </div>
         )}
       </CardFooter>
+
+      <ShareDialog
+        open={showShare}
+        onOpenChange={setShowShare}
+        postId={post.id}
+        postContent={post.content}
+        postAuthor={post.username}
+        currentUserId={currentUserId}
+        onShared={loadShareCount}
+      />
     </Card>
   );
 };
