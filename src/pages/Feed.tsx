@@ -5,6 +5,7 @@ import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LogOut, Menu } from "lucide-react";
+import NotificationBell from "@/components/NotificationBell";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
 import LeftSidebar from "@/components/LeftSidebar";
