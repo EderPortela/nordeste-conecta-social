@@ -231,10 +231,12 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
 
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
               className="hover:bg-accent/10 hover:text-accent transition-colors"
+              onClick={() => setShowShare(true)}
             >
-              <Share2 className="h-4 w-4" />
+              <Share2 className="h-4 w-4 mr-1" />
+              {shareCount > 0 && <span className="text-xs">{shareCount}</span>}
             </Button>
 
             <Button
