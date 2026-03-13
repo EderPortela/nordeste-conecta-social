@@ -324,6 +324,11 @@ const Profile = () => {
                     </Button>
                   ) : (
                     <div className="flex gap-2 mt-4">
+                      <FriendshipButton
+                        currentUserId={currentUser!.id}
+                        targetUserId={profile.id}
+                        targetUsername={profile.username}
+                      />
                       <Button 
                         className="hover-lift shadow-soft min-w-[100px]"
                         onClick={handleFollow}

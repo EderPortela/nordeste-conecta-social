@@ -147,7 +147,8 @@ const Feed = () => {
           </h1>
 
           {/* User Info & Logout */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <NotificationBell userId={user.id} />
             <span className="text-sm font-medium text-muted-foreground hidden md:inline">
               @{profile.username}
             </span>
