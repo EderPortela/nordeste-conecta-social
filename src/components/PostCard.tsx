@@ -38,6 +38,20 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   const [localLikeCount, setLocalLikeCount] = useState(post.like_count);
   const [currentReaction, setCurrentReaction] = useState<string | undefined>();
   const [isSaved, setIsSaved] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+  const [shareCount, setShareCount] = useState(0);
+
+  useEffect(() => {
+    loadShareCount();
+  }, [post.id]);
+
+  const loadShareCount = async () => {
+    const { count } = await supabase
+      .from("post_shares" as any)
+      .select("*", { count: "exact", head: true })
+      .eq("post_id", post.id);
+    setShareCount(count || 0);
+  };
 
   useEffect(() => {
     checkIfLiked();
