@@ -10,6 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import CommentSection from "./CommentSection";
 import ReactionPicker from "./ReactionPicker";
+import ShareDialog from "./ShareDialog";
 
 interface PostCardProps {
   post: {
