@@ -10,6 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import CommentSection from "./CommentSection";
 import ReactionPicker from "./ReactionPicker";
+import ShareDialog from "./ShareDialog";
 
 interface PostCardProps {
   post: {
@@ -37,6 +38,20 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   const [localLikeCount, setLocalLikeCount] = useState(post.like_count);
   const [currentReaction, setCurrentReaction] = useState<string | undefined>();
   const [isSaved, setIsSaved] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+  const [shareCount, setShareCount] = useState(0);
+
+  useEffect(() => {
+    loadShareCount();
+  }, [post.id]);
+
+  const loadShareCount = async () => {
+    const { count } = await supabase
+      .from("post_shares" as any)
+      .select("*", { count: "exact", head: true })
+      .eq("post_id", post.id);
+    setShareCount(count || 0);
+  };
 
   useEffect(() => {
     checkIfLiked();
@@ -216,10 +231,12 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
 
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
               className="hover:bg-accent/10 hover:text-accent transition-colors"
+              onClick={() => setShowShare(true)}
             >
-              <Share2 className="h-4 w-4" />
+              <Share2 className="h-4 w-4 mr-1" />
+              {shareCount > 0 && <span className="text-xs">{shareCount}</span>}
             </Button>
 
             <Button
@@ -245,6 +262,16 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           </div>
         )}
       </CardFooter>
+
+      <ShareDialog
+        open={showShare}
+        onOpenChange={setShowShare}
+        postId={post.id}
+        postContent={post.content}
+        postAuthor={post.username}
+        currentUserId={currentUserId}
+        onShared={loadShareCount}
+      />
     </Card>
   );
 };

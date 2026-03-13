@@ -5,6 +5,7 @@ import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LogOut, Menu } from "lucide-react";
+import NotificationBell from "@/components/NotificationBell";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
 import LeftSidebar from "@/components/LeftSidebar";
@@ -146,7 +147,8 @@ const Feed = () => {
           </h1>
 
           {/* User Info & Logout */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <NotificationBell userId={user.id} />
             <span className="text-sm font-medium text-muted-foreground hidden md:inline">
               @{profile.username}
             </span>

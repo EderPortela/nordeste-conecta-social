@@ -16,7 +16,8 @@ import {
   MapPin,
   Plus,
   TrendingUp,
-  Trophy
+  Trophy,
+  CalendarDays
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +38,7 @@ const menuItems = [
   { id: "marketplace", label: "Feira Nordestina", icon: Soup, route: "/marketplace" },
   { id: "communities", label: "Vilarejos", icon: MapPin, route: "/comunidades" },
   { id: "conquistas", label: "Conquistas", icon: Trophy, route: "/conquistas" },
+  { id: "events", label: "Eventos", icon: CalendarDays, route: "/eventos" },
   { id: "messages", label: "Mensagens", icon: MessageCircle, route: "/mensagens" },
   { id: "profile", label: "Perfil", icon: User, route: "/perfil" },
   { id: "settings", label: "Configurações", icon: Settings, route: "/configuracoes" },

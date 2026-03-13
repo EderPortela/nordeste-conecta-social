@@ -22,6 +22,7 @@ import RightSidebar from "@/components/RightSidebar";
 import PostCard from "@/components/PostCard";
 import EditProfileDialog from "@/components/EditProfileDialog";
 import PhotoGalleryModal from "@/components/PhotoGalleryModal";
+import FriendshipButton from "@/components/FriendshipButton";
 import GamificationBadge from "@/components/GamificationBadge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
@@ -323,6 +324,11 @@ const Profile = () => {
                     </Button>
                   ) : (
                     <div className="flex gap-2 mt-4">
+                      <FriendshipButton
+                        currentUserId={currentUser!.id}
+                        targetUserId={profile.id}
+                        targetUsername={profile.username}
+                      />
                       <Button 
                         className="hover-lift shadow-soft min-w-[100px]"
                         onClick={handleFollow}
