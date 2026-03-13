@@ -14,6 +14,7 @@ import CommunityPage from "./pages/CommunityPage";
 import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
 import Conquistas from "./pages/Conquistas";
+import Events from "./pages/Events";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
