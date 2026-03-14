@@ -4,11 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import LeftSidebar from "@/components/LeftSidebar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -28,7 +27,6 @@ import {
   MapPin,
   Plus,
   Users,
-  Clock,
   CheckCircle2,
   Star,
 } from "lucide-react";
@@ -77,7 +75,6 @@ const Events = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [filter, setFilter] = useState("todos");
 
-  // Form state
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -104,24 +101,23 @@ const Events = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from("events" as any)
+        .from("events")
         .select("*")
         .gte("event_date", new Date().toISOString())
         .order("event_date", { ascending: true });
 
       if (error) throw error;
 
-      // Load attendee counts and user status
       const enriched = await Promise.all(
-        ((data || []) as any[]).map(async (event: any) => {
+        (data || []).map(async (event) => {
           const { count } = await supabase
-            .from("event_attendees" as any)
+            .from("event_attendees")
             .select("*", { count: "exact", head: true })
             .eq("event_id", event.id)
             .eq("status", "going");
 
           const { data: userAttendee } = await supabase
-            .from("event_attendees" as any)
+            .from("event_attendees")
             .select("status")
             .eq("event_id", event.id)
             .eq("user_id", userId)
@@ -130,7 +126,7 @@ const Events = () => {
           return {
             ...event,
             attendee_count: count || 0,
-            user_status: userAttendee ? (userAttendee as any).status : null,
+            user_status: userAttendee ? userAttendee.status : null,
           };
         })
       );
@@ -147,14 +143,14 @@ const Events = () => {
     if (!user || !title || !location || !eventDate) return;
     setCreating(true);
     try {
-      const { error } = await supabase.from("events" as any).insert({
+      const { error } = await supabase.from("events").insert({
         creator_id: user.id,
         title,
         description: description || null,
         location,
         event_date: new Date(eventDate).toISOString(),
         category,
-      } as any);
+      });
 
       if (error) throw error;
 
@@ -172,9 +168,8 @@ const Events = () => {
   const handleRSVP = async (eventId: string, status: string) => {
     if (!user) return;
     try {
-      // Upsert
       const { data: existing } = await supabase
-        .from("event_attendees" as any)
+        .from("event_attendees")
         .select("id")
         .eq("event_id", eventId)
         .eq("user_id", user.id)
@@ -182,15 +177,15 @@ const Events = () => {
 
       if (existing) {
         await supabase
-          .from("event_attendees" as any)
-          .update({ status } as any)
-          .eq("id", (existing as any).id);
+          .from("event_attendees")
+          .update({ status })
+          .eq("id", existing.id);
       } else {
-        await supabase.from("event_attendees" as any).insert({
+        await supabase.from("event_attendees").insert({
           event_id: eventId,
           user_id: user.id,
           status,
-        } as any);
+        });
       }
 
       const labels: Record<string, string> = {
@@ -210,8 +205,8 @@ const Events = () => {
     if (!user) return;
     try {
       await supabase
-        .from("event_attendees" as any)
-        .update({ checked_in: true, checked_in_at: new Date().toISOString() } as any)
+        .from("event_attendees")
+        .update({ checked_in: true, checked_in_at: new Date().toISOString() })
         .eq("event_id", eventId)
         .eq("user_id", user.id);
 
@@ -251,7 +246,6 @@ const Events = () => {
           />
 
           <main className="flex-1 max-w-3xl mx-auto lg:mx-0 w-full">
-            {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-3xl font-bold text-foreground">
@@ -321,7 +315,6 @@ const Events = () => {
               </Dialog>
             </div>
 
-            {/* Filters */}
             <div className="flex gap-2 mb-6 flex-wrap">
               {[
                 { value: "todos", label: "Todos" },
@@ -340,7 +333,6 @@ const Events = () => {
               ))}
             </div>
 
-            {/* Events List */}
             {loading ? (
               <div className="text-center py-16">
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto mb-4" />
@@ -366,7 +358,6 @@ const Events = () => {
                     <Card key={event.id} className="rounded-2xl shadow-card border border-border overflow-hidden hover:shadow-hover transition-all">
                       <CardContent className="p-5">
                         <div className="flex gap-4">
-                          {/* Date badge */}
                           <div className="flex flex-col items-center justify-center bg-primary/10 rounded-xl px-4 py-3 min-w-[70px]">
                             <span className="text-xs font-semibold text-primary uppercase">
                               {format(eventDateObj, "MMM", { locale: ptBR })}
@@ -379,7 +370,6 @@ const Events = () => {
                             </span>
                           </div>
 
-                          {/* Event info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-2">
                               <div>
@@ -409,7 +399,6 @@ const Events = () => {
                               </div>
                             </div>
 
-                            {/* RSVP Buttons */}
                             {!isPast && (
                               <div className="flex gap-2 mt-4">
                                 <Button

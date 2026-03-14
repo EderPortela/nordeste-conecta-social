@@ -30,14 +30,14 @@ const FriendshipButton = ({
 
   const checkFriendship = async () => {
     const { data } = await supabase
-      .from("friendships" as any)
+      .from("friendships")
       .select("*")
       .or(
         `and(requester_id.eq.${currentUserId},addressee_id.eq.${targetUserId}),and(requester_id.eq.${targetUserId},addressee_id.eq.${currentUserId})`
       );
 
-    if (data && (data as any[]).length > 0) {
-      const friendship = (data as any[])[0];
+    if (data && data.length > 0) {
+      const friendship = data[0];
       setFriendshipId(friendship.id);
 
       if (friendship.status === "accepted") {
@@ -58,20 +58,19 @@ const FriendshipButton = ({
   const sendRequest = async () => {
     setLoading(true);
     try {
-      const { error } = await supabase.from("friendships" as any).insert({
+      const { error } = await supabase.from("friendships").insert({
         requester_id: currentUserId,
         addressee_id: targetUserId,
-      } as any);
+      });
 
       if (error) throw error;
 
-      // Notify
-      await supabase.from("notifications" as any).insert({
+      await supabase.from("notifications").insert({
         user_id: targetUserId,
         actor_id: currentUserId,
         type: "friend_request",
         title: "enviou uma solicitação de amizade",
-      } as any);
+      });
 
       setStatus("pending_sent");
       toast({
@@ -90,23 +89,23 @@ const FriendshipButton = ({
     setLoading(true);
     try {
       await supabase
-        .from("friendships" as any)
-        .update({ status: "accepted" } as any)
+        .from("friendships")
+        .update({ status: "accepted" })
         .eq("id", friendshipId);
 
       const { data: friendship } = await supabase
-        .from("friendships" as any)
+        .from("friendships")
         .select("requester_id")
         .eq("id", friendshipId)
         .single();
 
       if (friendship) {
-        await supabase.from("notifications" as any).insert({
-          user_id: (friendship as any).requester_id,
+        await supabase.from("notifications").insert({
+          user_id: friendship.requester_id,
           actor_id: currentUserId,
           type: "friend_accepted",
           title: "aceitou sua solicitação de amizade",
-        } as any);
+        });
       }
 
       setStatus("accepted");
@@ -125,7 +124,7 @@ const FriendshipButton = ({
     if (!friendshipId) return;
     setLoading(true);
     try {
-      await supabase.from("friendships" as any).delete().eq("id", friendshipId);
+      await supabase.from("friendships").delete().eq("id", friendshipId);
       setStatus("none");
       setFriendshipId(null);
       toast({ title: "Amizade removida" });

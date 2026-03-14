@@ -38,24 +38,21 @@ const ReactionPicker = ({ postId, currentUserId, currentReaction, onReactionChan
 
     setIsLoading(true);
     try {
-      // Se já tem a mesma reação, remove
       if (currentReaction === reactionType) {
         await supabase
-          .from("post_reactions" as any)
+          .from("post_reactions")
           .delete()
           .eq("post_id", postId)
           .eq("user_id", currentUserId);
       } else {
-        // Tenta atualizar primeiro, se não existir, insere
         const { error: updateError } = await supabase
-          .from("post_reactions" as any)
+          .from("post_reactions")
           .update({ reaction_type: reactionType })
           .eq("post_id", postId)
           .eq("user_id", currentUserId);
 
         if (updateError) {
-          // Se não conseguiu atualizar, insere
-          await supabase.from("post_reactions" as any).insert({
+          await supabase.from("post_reactions").insert({
             post_id: postId,
             user_id: currentUserId,
             reaction_type: reactionType,
