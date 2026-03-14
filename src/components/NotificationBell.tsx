@@ -86,7 +86,7 @@ const NotificationBell = ({ userId }: NotificationBellProps) => {
 
   const loadNotifications = async () => {
     const { data, error } = await supabase
-      .from("notifications" as any)
+      .from("notifications")
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
@@ -97,11 +97,11 @@ const NotificationBell = ({ userId }: NotificationBellProps) => {
       return;
     }
 
-    const notifs = (data || []) as any[];
+    const notifs = data || [];
 
     // Load actor profiles
-    const actorIds = [...new Set(notifs.filter(n => n.actor_id).map(n => n.actor_id))];
-    let profiles: Record<string, any> = {};
+    const actorIds = [...new Set(notifs.filter(n => n.actor_id).map(n => n.actor_id!))];
+    let profiles: Record<string, { display_name: string; username: string; avatar_url: string | null }> = {};
 
     if (actorIds.length > 0) {
       const { data: profileData } = await supabase
@@ -114,19 +114,19 @@ const NotificationBell = ({ userId }: NotificationBellProps) => {
       }
     }
 
-    const enriched = notifs.map(n => ({
+    const enriched: Notification[] = notifs.map(n => ({
       ...n,
       actor_profile: n.actor_id ? profiles[n.actor_id] : undefined,
     }));
 
     setNotifications(enriched);
-    setUnreadCount(enriched.filter((n: any) => !n.read).length);
+    setUnreadCount(enriched.filter(n => !n.read).length);
   };
 
   const markAllRead = async () => {
     await supabase
-      .from("notifications" as any)
-      .update({ read: true } as any)
+      .from("notifications")
+      .update({ read: true })
       .eq("user_id", userId)
       .eq("read", false);
 
@@ -136,8 +136,8 @@ const NotificationBell = ({ userId }: NotificationBellProps) => {
 
   const markOneRead = async (id: string) => {
     await supabase
-      .from("notifications" as any)
-      .update({ read: true } as any)
+      .from("notifications")
+      .update({ read: true })
       .eq("id", id);
 
     setNotifications(prev =>

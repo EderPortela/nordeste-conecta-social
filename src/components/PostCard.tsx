@@ -47,7 +47,7 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
 
   const loadShareCount = async () => {
     const { count } = await supabase
-      .from("post_shares" as any)
+      .from("post_shares")
       .select("*", { count: "exact", head: true })
       .eq("post_id", post.id);
     setShareCount(count || 0);
@@ -60,7 +60,7 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   const checkIfLiked = async () => {
     try {
       const { data, error } = await supabase
-        .from("post_reactions" as any)
+        .from("post_reactions")
         .select("reaction_type")
         .eq("post_id", post.id)
         .eq("user_id", currentUserId)
@@ -68,8 +68,8 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
 
       if (error && error.code !== 'PGRST116') throw error;
       
-      if (data && (data as any).reaction_type) {
-        setCurrentReaction((data as any).reaction_type);
+      if (data && data.reaction_type) {
+        setCurrentReaction(data.reaction_type);
         setIsLiked(true);
       }
     } catch (error) {

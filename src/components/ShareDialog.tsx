@@ -38,12 +38,12 @@ const ShareDialog = ({
     setSharing(true);
     try {
       const { error } = await supabase
-        .from("post_shares" as any)
+        .from("post_shares")
         .insert({
           post_id: postId,
           user_id: currentUserId,
           comment: comment || null,
-        } as any);
+        });
 
       if (error) {
         if (error.code === "23505") {
@@ -63,7 +63,7 @@ const ShareDialog = ({
           .single();
 
         if (postData && postData.user_id !== currentUserId) {
-          await supabase.from("notifications" as any).insert({
+          await supabase.from("notifications").insert({
             user_id: postData.user_id,
             actor_id: currentUserId,
             type: "share",
@@ -71,7 +71,7 @@ const ShareDialog = ({
             body: postContent.substring(0, 100),
             reference_id: postId,
             reference_type: "post",
-          } as any);
+          });
         }
 
         toast({
@@ -113,7 +113,6 @@ const ShareDialog = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Original post preview */}
           <div className="bg-muted/50 rounded-xl p-3 border border-border">
             <p className="text-xs text-muted-foreground mb-1">
               Post de @{postAuthor}
@@ -121,7 +120,6 @@ const ShareDialog = ({
             <p className="text-sm line-clamp-3">{postContent}</p>
           </div>
 
-          {/* Comment */}
           <Textarea
             placeholder="Adicione um comentário ao compartilhar... (opcional)"
             value={comment}
@@ -130,7 +128,6 @@ const ShareDialog = ({
             rows={3}
           />
 
-          {/* Actions */}
           <div className="flex gap-2">
             <Button
               onClick={handleShare}
