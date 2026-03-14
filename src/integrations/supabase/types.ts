@@ -837,6 +837,7 @@ export type Database = {
           image_url: string | null
           updated_at: string
           user_id: string
+          video_url: string | null
         }
         Insert: {
           content: string
@@ -846,6 +847,7 @@ export type Database = {
           image_url?: string | null
           updated_at?: string
           user_id: string
+          video_url?: string | null
         }
         Update: {
           content?: string
@@ -855,6 +857,7 @@ export type Database = {
           image_url?: string | null
           updated_at?: string
           user_id?: string
+          video_url?: string | null
         }
         Relationships: [
           {
@@ -1093,6 +1096,7 @@ export type Database = {
           updated_at: string | null
           user_id: string | null
           username: string | null
+          video_url: string | null
         }
         Relationships: [
           {
