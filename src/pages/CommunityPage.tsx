@@ -75,31 +75,26 @@ const CommunityPage = () => {
   const loadCommunityData = async (userId: string) => {
     setLoading(true);
     try {
-      // Load community info
-      const { data: communityData, error: communityError } = await (supabase as any)
+      const { data: communityData, error: communityError } = await supabase
         .from("communities")
         .select("*")
-        .eq("id", communityId)
+        .eq("id", communityId!)
         .single();
 
       if (communityError) throw communityError;
       setCommunity(communityData);
       setIsCreator(communityData.creator_id === userId);
 
-      // Check if user is member
-      const { data: memberData } = await (supabase as any)
+      const { data: memberData } = await supabase
         .from("community_members")
         .select("id")
-        .eq("community_id", communityId)
+        .eq("community_id", communityId!)
         .eq("user_id", userId)
         .single();
 
       setIsMember(!!memberData);
-
-      // Load members
       await loadMembers();
 
-      // Load posts if user is member
       if (memberData) {
         await loadPosts();
       }
@@ -117,8 +112,6 @@ const CommunityPage = () => {
 
   const loadPosts = async () => {
     try {
-      // In a real implementation, you'd have a community_posts table
-      // For now, we'll just show recent posts
       const { data, error } = await supabase
         .from("posts_with_stats")
         .select("*")
@@ -126,10 +119,19 @@ const CommunityPage = () => {
         .limit(20);
 
       if (error) throw error;
-      // Map to include video_url (default to null if not present)
-      const postsWithVideo = (data || []).map((post: any) => ({
-        ...post,
-        video_url: post.video_url || null
+      const postsWithVideo: Post[] = (data || []).map((post) => ({
+        id: post.id!,
+        user_id: post.user_id!,
+        content: post.content!,
+        image_url: post.image_url,
+        video_url: post.video_url || null,
+        hashtags: post.hashtags || [],
+        created_at: post.created_at!,
+        username: post.username!,
+        display_name: post.display_name!,
+        avatar_url: post.avatar_url,
+        like_count: Number(post.like_count) || 0,
+        comment_count: Number(post.comment_count) || 0,
       }));
       setPosts(postsWithVideo);
     } catch (error: any) {
@@ -139,7 +141,7 @@ const CommunityPage = () => {
 
   const loadMembers = async () => {
     try {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from("community_members")
         .select(`
           id,
@@ -151,11 +153,11 @@ const CommunityPage = () => {
             avatar_url
           )
         `)
-        .eq("community_id", communityId);
+        .eq("community_id", communityId!);
 
       if (error) throw error;
 
-      const formattedMembers = (data || []).map((member: any) => ({
+      const formattedMembers: Member[] = (data || []).map((member: any) => ({
         id: member.id,
         user_id: member.user_id,
         joined_at: member.joined_at,
@@ -175,22 +177,20 @@ const CommunityPage = () => {
 
     try {
       if (isMember) {
-        await (supabase as any)
+        await supabase
           .from("community_members")
           .delete()
-          .eq("community_id", communityId)
+          .eq("community_id", communityId!)
           .eq("user_id", currentUser.id);
 
-        toast({
-          title: "Você saiu da comunidade",
-        });
+        toast({ title: "Você saiu da comunidade" });
         setIsMember(false);
         setPosts([]);
       } else {
-        await (supabase as any)
+        await supabase
           .from("community_members")
           .insert({
-            community_id: communityId,
+            community_id: communityId!,
             user_id: currentUser.id
           });
 
@@ -241,7 +241,6 @@ const CommunityPage = () => {
 
           <div className="col-span-12 lg:col-span-6">
             <div className="space-y-6">
-              {/* Header */}
               <Card>
                 <CardHeader>
                   <div className="flex items-start justify-between">
@@ -300,7 +299,6 @@ const CommunityPage = () => {
                 </CardContent>
               </Card>
 
-              {/* Tabs */}
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <TabsList className="w-full">
                   <TabsTrigger value="feed" className="flex-1">Feed</TabsTrigger>
@@ -308,7 +306,6 @@ const CommunityPage = () => {
                   <TabsTrigger value="about" className="flex-1">Sobre</TabsTrigger>
                 </TabsList>
 
-                {/* Feed Tab */}
                 <TabsContent value="feed" className="space-y-6 mt-6">
                   {!isMember ? (
                     <Card className="p-8 text-center">
@@ -346,7 +343,6 @@ const CommunityPage = () => {
                   )}
                 </TabsContent>
 
-                {/* Members Tab */}
                 <TabsContent value="members" className="mt-6">
                   <Card>
                     <CardHeader>
@@ -386,7 +382,6 @@ const CommunityPage = () => {
                   </Card>
                 </TabsContent>
 
-                {/* About Tab */}
                 <TabsContent value="about" className="mt-6">
                   <Card>
                     <CardHeader>

@@ -111,8 +111,8 @@ const Messages = () => {
           // Mark as read
           if (newMsg.sender_id !== user?.id) {
             supabase
-              .from("messages" as any)
-              .update({ read: true } as any)
+              .from("messages")
+              .update({ read: true })
               .eq("id", newMsg.id)
               .then();
           }
@@ -129,25 +129,22 @@ const Messages = () => {
 
   const loadConversations = async (userId: string) => {
     try {
-      // Get user's conversation IDs
       const { data: participations } = await supabase
-        .from("conversation_participants" as any)
+        .from("conversation_participants")
         .select("conversation_id")
         .eq("user_id", userId);
 
-      if (!participations || (participations as any[]).length === 0) {
+      if (!participations || participations.length === 0) {
         setConversations([]);
         return;
       }
 
-      const convIds = (participations as any[]).map((p: any) => p.conversation_id);
-
+      const convIds = participations.map(p => p.conversation_id);
       const convs: ConversationData[] = [];
 
       for (const convId of convIds) {
-        // Get other participant
         const { data: otherParticipant } = await supabase
-          .from("conversation_participants" as any)
+          .from("conversation_participants")
           .select("user_id")
           .eq("conversation_id", convId)
           .neq("user_id", userId)
@@ -158,23 +155,21 @@ const Messages = () => {
         const { data: otherProfile } = await supabase
           .from("profiles")
           .select("*")
-          .eq("id", (otherParticipant as any).user_id)
+          .eq("id", otherParticipant.user_id)
           .single();
 
         if (!otherProfile) continue;
 
-        // Get last message
         const { data: lastMsg } = await supabase
-          .from("messages" as any)
+          .from("messages")
           .select("*")
           .eq("conversation_id", convId)
           .order("created_at", { ascending: false })
           .limit(1)
           .single();
 
-        // Count unread
         const { count } = await supabase
-          .from("messages" as any)
+          .from("messages")
           .select("*", { count: "exact", head: true })
           .eq("conversation_id", convId)
           .eq("read", false)
@@ -183,8 +178,8 @@ const Messages = () => {
         convs.push({
           id: convId,
           otherUser: otherProfile,
-          lastMessage: lastMsg ? (lastMsg as any).content : "Início da conversa",
-          lastMessageAt: lastMsg ? (lastMsg as any).created_at : new Date().toISOString(),
+          lastMessage: lastMsg ? lastMsg.content : "Início da conversa",
+          lastMessageAt: lastMsg ? lastMsg.created_at : new Date().toISOString(),
           unreadCount: count || 0,
         });
       }
@@ -198,7 +193,7 @@ const Messages = () => {
 
   const loadMessages = async (conversationId: string) => {
     const { data, error } = await supabase
-      .from("messages" as any)
+      .from("messages")
       .select("*")
       .eq("conversation_id", conversationId)
       .order("created_at", { ascending: true });
@@ -208,14 +203,13 @@ const Messages = () => {
       return;
     }
 
-    setMessages((data || []) as any[]);
+    setMessages(data || []);
     scrollToBottom();
 
-    // Mark all as read
     if (user) {
       await supabase
-        .from("messages" as any)
-        .update({ read: true } as any)
+        .from("messages")
+        .update({ read: true })
         .eq("conversation_id", conversationId)
         .neq("sender_id", user.id)
         .eq("read", false);
@@ -234,22 +228,20 @@ const Messages = () => {
     setMessageInput("");
 
     try {
-      const { error } = await supabase.from("messages" as any).insert({
+      const { error } = await supabase.from("messages").insert({
         conversation_id: selectedConv.id,
         sender_id: user.id,
         content,
-      } as any);
+      });
 
       if (error) throw error;
 
-      // Update conversation timestamp
       await supabase
-        .from("conversations" as any)
-        .update({ updated_at: new Date().toISOString() } as any)
+        .from("conversations")
+        .update({ updated_at: new Date().toISOString() })
         .eq("id", selectedConv.id);
 
-      // Create notification
-      await supabase.from("notifications" as any).insert({
+      await supabase.from("notifications").insert({
         user_id: selectedConv.otherUser.id,
         actor_id: user.id,
         type: "message",
@@ -257,7 +249,7 @@ const Messages = () => {
         body: content.substring(0, 100),
         reference_id: selectedConv.id,
         reference_type: "conversation",
-      } as any);
+      });
     } catch (error: any) {
       toast({ title: "Erro ao enviar", description: error.message, variant: "destructive" });
     }
@@ -280,7 +272,6 @@ const Messages = () => {
   const startConversation = async (otherUser: Profile) => {
     if (!user) return;
 
-    // Check if conversation exists
     const existing = conversations.find(c => c.otherUser.id === otherUser.id);
     if (existing) {
       setSelectedConv(existing);
@@ -290,22 +281,20 @@ const Messages = () => {
     }
 
     try {
-      // Create conversation
       const { data: conv, error: convError } = await supabase
-        .from("conversations" as any)
-        .insert({} as any)
+        .from("conversations")
+        .insert({})
         .select()
         .single();
 
       if (convError) throw convError;
 
-      const convId = (conv as any).id;
+      const convId = conv.id;
 
-      // Add participants
-      await supabase.from("conversation_participants" as any).insert([
+      await supabase.from("conversation_participants").insert([
         { conversation_id: convId, user_id: user.id },
         { conversation_id: convId, user_id: otherUser.id },
-      ] as any);
+      ]);
 
       const newConv: ConversationData = {
         id: convId,
@@ -489,7 +478,7 @@ const Messages = () => {
                                 ? "text-primary-foreground/70"
                                 : "text-muted-foreground"
                             }`}>
-                              {format(new Date(msg.created_at), "HH:mm")}
+                              {formatTime(new Date(msg.created_at))}
                             </p>
                           </div>
                         </div>
@@ -585,11 +574,10 @@ const Messages = () => {
   );
 };
 
-export default Messages;
-
-function format(date: Date, fmt: string): string {
+function formatTime(date: Date): string {
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
-  if (fmt === "HH:mm") return `${hours}:${minutes}`;
-  return date.toLocaleString();
+  return `${hours}:${minutes}`;
 }
+
+export default Messages;
