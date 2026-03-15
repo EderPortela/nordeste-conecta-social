@@ -571,6 +571,11 @@ const Messages = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <BottomNav
+        activeRoute="/mensagens"
+        onNavigate={(route) => navigate(route)}
+      />
     </div>
   );
 };

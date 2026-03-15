@@ -444,6 +444,11 @@ const Events = () => {
           </main>
         </div>
       </div>
+
+      <BottomNav
+        activeRoute="/eventos"
+        onNavigate={(route) => navigate(route)}
+      />
     </div>
   );
 };
