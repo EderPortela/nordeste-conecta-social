@@ -233,7 +233,7 @@ const Events = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <div className="container mx-auto px-4 py-6">
         <div className="flex gap-6 max-w-[1600px] mx-auto">
           <LeftSidebar
