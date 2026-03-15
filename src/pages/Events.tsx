@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import LeftSidebar from "@/components/LeftSidebar";
+import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -232,7 +233,7 @@ const Events = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <div className="container mx-auto px-4 py-6">
         <div className="flex gap-6 max-w-[1600px] mx-auto">
           <LeftSidebar
@@ -443,6 +444,11 @@ const Events = () => {
           </main>
         </div>
       </div>
+
+      <BottomNav
+        activeRoute="/eventos"
+        onNavigate={(route) => navigate(route)}
+      />
     </div>
   );
 };

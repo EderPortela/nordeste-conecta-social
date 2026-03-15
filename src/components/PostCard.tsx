@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Heart, MessageCircle, Trash2, MapPin, Share2, Bookmark } from "lucide-react";
+import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import CommentSection from "./CommentSection";
 import ReactionPicker from "./ReactionPicker";
 import ShareDialog from "./ShareDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface PostCardProps {
   post: {
@@ -40,6 +45,7 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
   const [isSaved, setIsSaved] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [shareCount, setShareCount] = useState(0);
+  const [doubleTapHeart, setDoubleTapHeart] = useState(false);
 
   useEffect(() => {
     loadShareCount();
@@ -82,37 +88,42 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
     onUpdate();
   };
 
+  const handleDoubleTap = async () => {
+    if (isLiked) return;
+    setDoubleTapHeart(true);
+    setTimeout(() => setDoubleTapHeart(false), 1000);
+    // Trigger a like via reaction
+    try {
+      await supabase.from("post_reactions").upsert({
+        post_id: post.id,
+        user_id: currentUserId,
+        reaction_type: "❤️",
+      }, { onConflict: "post_id,user_id" });
+      setIsLiked(true);
+      setCurrentReaction("❤️");
+      setLocalLikeCount(prev => prev + 1);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleSave = () => {
     setIsSaved(!isSaved);
     toast({
-      title: isSaved ? "Post removido dos salvos" : "Post salvo",
+      title: isSaved ? "Removido dos salvos" : "Salvo",
       description: isSaved ? "" : "Você pode ver depois!",
     });
   };
 
   const handleDelete = async () => {
     if (!confirm("Tem certeza que quer deletar este post?")) return;
-
     try {
-      const { error } = await supabase
-        .from("posts")
-        .delete()
-        .eq("id", post.id);
-
+      const { error } = await supabase.from("posts").delete().eq("id", post.id);
       if (error) throw error;
-
-      toast({
-        title: "Post deletado",
-        description: "Seu post foi removido.",
-      });
-
+      toast({ title: "Post deletado" });
       onUpdate();
     } catch (error: any) {
-      toast({
-        title: "Erro ao deletar",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Erro ao deletar", description: error.message, variant: "destructive" });
     }
   };
 
@@ -125,135 +136,142 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
           </span>
         );
       }
+      if (word.startsWith("@")) {
+        return (
+          <span key={index} className="text-primary font-medium">
+            {word}
+          </span>
+        );
+      }
       return word;
     });
   };
 
+  const hasMedia = post.image_url || post.video_url;
+
   return (
-    <Card className="rounded-2xl shadow-card hover:shadow-hover transition-all border-border overflow-hidden">
-      <CardHeader className="pb-3 bg-gradient-to-b from-muted/30 to-transparent">
-        <div className="flex items-start gap-3">
-          <Avatar className="h-12 w-12 border-2 border-primary/20">
-            <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground font-bold text-lg">
+    <Card className="rounded-none sm:rounded-xl border-x-0 sm:border-x border-border bg-card overflow-hidden shadow-none sm:shadow-card">
+      {/* Header - Instagram style */}
+      <div className="flex items-center gap-3 px-4 py-3">
+        <Avatar className="h-9 w-9 ring-2 ring-primary/20">
+          {post.avatar_url ? (
+            <AvatarImage src={post.avatar_url} />
+          ) : (
+            <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground text-sm font-bold">
               {post.display_name.charAt(0).toUpperCase()}
             </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <p className="font-bold text-foreground text-base">{post.display_name}</p>
-              <span className="text-sm text-muted-foreground">@{post.username}</span>
-            </div>
-            <div className="flex items-center gap-2 mt-1">
-              <MapPin className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">
-                {formatDistanceToNow(new Date(post.created_at), {
-                  addSuffix: true,
-                  locale: ptBR,
-                })}
-              </span>
-            </div>
-          </div>
-          {post.user_id === currentUserId && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleDelete}
-              className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive"
-            >
-              <Trash2 className="h-4 w-4" />
+          )}
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <p className="font-semibold text-sm text-foreground leading-tight">{post.username}</p>
+          <p className="text-xs text-muted-foreground">
+            {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ptBR })}
+          </p>
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-5 w-5" />
             </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {post.user_id === currentUserId && (
+              <DropdownMenuItem onClick={handleDelete} className="text-destructive">
+                <Trash2 className="h-4 w-4 mr-2" />
+                Deletar
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem onClick={() => setShowShare(true)}>
+              <Send className="h-4 w-4 mr-2" />
+              Compartilhar
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      {/* Media - Full width Instagram style */}
+      {hasMedia && (
+        <div
+          className="relative w-full bg-muted cursor-pointer"
+          onDoubleClick={handleDoubleTap}
+        >
+          {post.image_url && (
+            <img
+              src={post.image_url}
+              alt="Post"
+              className="w-full object-cover max-h-[600px]"
+              loading="lazy"
+            />
+          )}
+          {post.video_url && (
+            <video
+              src={post.video_url}
+              controls
+              className="w-full max-h-[600px]"
+            />
+          )}
+          {/* Double-tap heart animation */}
+          {doubleTapHeart && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <Heart className="h-24 w-24 text-white fill-white animate-pulse-heart drop-shadow-lg" />
+            </div>
           )}
         </div>
-      </CardHeader>
+      )}
 
-      <CardContent className="pb-4 space-y-4">
-        <p className="text-foreground whitespace-pre-wrap text-base leading-relaxed">
-          {renderContent(post.content)}
-        </p>
-
-        {post.image_url && (
-          <img
-            src={post.image_url}
-            alt="Post content"
-            className="w-full rounded-lg object-cover max-h-[500px]"
-          />
-        )}
-
-        {post.video_url && (
-          <video
-            src={post.video_url}
-            controls
-            className="w-full rounded-lg max-h-[500px]"
-          />
-        )}
-
-        {post.hashtags && post.hashtags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {post.hashtags.map((tag, index) => (
-              <Badge
-                key={index}
-                variant="secondary"
-                className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-              >
-                #{tag}
-              </Badge>
-            ))}
-          </div>
-        )}
-      </CardContent>
-
-      <CardFooter className="flex flex-col gap-3 pt-3 border-t border-border/50">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-1">
+      {/* Action buttons - Instagram style */}
+      <div className="px-4 pt-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-4">
             <ReactionPicker
               postId={post.id}
               currentUserId={currentUserId}
               currentReaction={currentReaction || null}
               onReactionChange={handleReactionChange}
             />
-            <span className="text-sm text-muted-foreground ml-2">
-              {localLikeCount > 0 && `${localLikeCount} ${localLikeCount === 1 ? 'cabra gostou' : 'cabras gostaram'}`}
-            </span>
+            <button onClick={() => setShowComments(!showComments)}>
+              <MessageCircle className="h-6 w-6 text-foreground hover:text-muted-foreground transition-colors" strokeWidth={1.5} />
+            </button>
+            <button onClick={() => setShowShare(true)}>
+              <Send className="h-6 w-6 text-foreground hover:text-muted-foreground transition-colors" strokeWidth={1.5} />
+            </button>
           </div>
-
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowComments(!showComments)}
-              className="hover:bg-primary/10 hover:text-primary transition-colors"
-            >
-              <MessageCircle className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">
-                {post.comment_count > 0 ? `${post.comment_count}` : 'Comentar'}
-              </span>
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              className="hover:bg-accent/10 hover:text-accent transition-colors"
-              onClick={() => setShowShare(true)}
-            >
-              <Share2 className="h-4 w-4 mr-1" />
-              {shareCount > 0 && <span className="text-xs">{shareCount}</span>}
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleSave}
-              className={`hover:bg-secondary/10 transition-colors ${
-                isSaved ? "text-secondary" : ""
-              }`}
-            >
-              <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
-            </Button>
-          </div>
+          <button onClick={handleSave}>
+            <Bookmark
+              className={`h-6 w-6 transition-colors ${isSaved ? "text-foreground fill-current" : "text-foreground hover:text-muted-foreground"}`}
+              strokeWidth={1.5}
+            />
+          </button>
         </div>
 
+        {/* Like count */}
+        {localLikeCount > 0 && (
+          <p className="font-semibold text-sm mb-1">
+            {localLikeCount} {localLikeCount === 1 ? 'curtida' : 'curtidas'}
+          </p>
+        )}
+
+        {/* Content text */}
+        <div className="mb-1">
+          <p className="text-sm">
+            <span className="font-semibold mr-1">{post.username}</span>
+            {renderContent(post.content)}
+          </p>
+        </div>
+
+        {/* Comment count */}
+        {post.comment_count > 0 && !showComments && (
+          <button
+            className="text-sm text-muted-foreground mb-1"
+            onClick={() => setShowComments(true)}
+          >
+            Ver {post.comment_count > 1 ? `todos os ${post.comment_count} comentários` : '1 comentário'}
+          </button>
+        )}
+
+        {/* Comments section */}
         {showComments && (
-          <div className="w-full pt-3 border-t border-border/50 animate-fade-in">
+          <div className="pt-2 border-t border-border/50 animate-fade-in">
             <CommentSection
               postId={post.id}
               currentUserId={currentUserId}
@@ -261,7 +279,9 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
             />
           </div>
         )}
-      </CardFooter>
+      </div>
+
+      <div className="h-3" />
 
       <ShareDialog
         open={showShare}
