@@ -15,6 +15,7 @@ import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
 import Conquistas from "./pages/Conquistas";
 import Events from "./pages/Events";
+import Reels from "./pages/Reels";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
