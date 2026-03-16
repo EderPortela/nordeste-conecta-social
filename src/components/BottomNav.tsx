@@ -22,31 +22,19 @@ const BottomNav = ({ activeRoute, onNavigate, onNewPost, hasNotifications }: Bot
       <div className="flex items-center justify-around h-14">
         {items.map((item) => {
           const isActive = item.route && activeRoute === item.route;
-          const isCreate = item.id === "create";
-
           return (
             <button
               key={item.id}
-              onClick={() => {
-                if (isCreate) {
-                  onNewPost?.();
-                } else {
-                  onNavigate(item.route);
-                }
-              }}
+              onClick={() => onNavigate(item.route)}
               className={cn(
                 "flex flex-col items-center justify-center w-full h-full relative transition-colors",
                 isActive ? "text-foreground" : "text-muted-foreground"
               )}
             >
-              {isCreate ? (
-                <item.icon className="h-7 w-7" strokeWidth={1.5} />
-              ) : (
-                <item.icon
-                  className={cn("h-6 w-6", isActive && "fill-current")}
-                  strokeWidth={isActive ? 2.5 : 1.5}
-                />
-              )}
+              <item.icon
+                className={cn("h-6 w-6", isActive && "fill-current")}
+                strokeWidth={isActive ? 2.5 : 1.5}
+              />
               {item.id === "notifications" && hasNotifications && (
                 <span className="absolute top-1 right-1/2 translate-x-3 h-2 w-2 bg-secondary rounded-full" />
               )}
