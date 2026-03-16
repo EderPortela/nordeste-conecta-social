@@ -17,7 +17,8 @@ import {
   Plus,
   TrendingUp,
   Trophy,
-  CalendarDays
+  CalendarDays,
+  Film
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
