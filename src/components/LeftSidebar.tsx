@@ -35,7 +35,8 @@ interface LeftSidebarProps {
 
 const menuItems = [
   { id: "home", label: "Início", icon: Home, route: "/feed" },
-  { id: "discover", label: "Descobrir", icon: Search, route: "/descobrir" },
+  { id: "discover", label: "Explorar", icon: Search, route: "/descobrir" },
+  { id: "reels", label: "Reels", icon: Film, route: "/reels" },
   { id: "marketplace", label: "Feira Nordestina", icon: Soup, route: "/marketplace" },
   { id: "communities", label: "Vilarejos", icon: MapPin, route: "/comunidades" },
   { id: "conquistas", label: "Conquistas", icon: Trophy, route: "/conquistas" },
