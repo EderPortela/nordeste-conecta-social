@@ -15,6 +15,7 @@ import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
 import Conquistas from "./pages/Conquistas";
 import Events from "./pages/Events";
+import Reels from "./pages/Reels";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/configuracoes" element={<Settings />} />
           <Route path="/conquistas" element={<Conquistas />} />
           <Route path="/eventos" element={<Events />} />
+          <Route path="/reels" element={<Reels />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
