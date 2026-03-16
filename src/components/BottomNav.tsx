@@ -12,7 +12,7 @@ const BottomNav = ({ activeRoute, onNavigate, onNewPost, hasNotifications }: Bot
   const items = [
     { id: "home", icon: Home, route: "/feed", label: "Início" },
     { id: "discover", icon: Search, route: "/descobrir", label: "Explorar" },
-    { id: "create", icon: PlusSquare, route: "", label: "Criar" },
+    { id: "reels", icon: Film, route: "/reels", label: "Reels" },
     { id: "notifications", icon: Heart, route: "/notificacoes", label: "Atividade" },
     { id: "profile", icon: User, route: "/perfil", label: "Perfil" },
   ];
