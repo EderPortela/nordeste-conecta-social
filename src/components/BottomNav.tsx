@@ -1,4 +1,4 @@
-import { Home, Search, PlusSquare, Heart, User } from "lucide-react";
+import { Home, Search, Film, Heart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface BottomNavProps {
