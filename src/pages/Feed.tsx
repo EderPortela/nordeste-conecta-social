@@ -105,9 +105,9 @@ const Feed = () => {
       {/* Header - Instagram style */}
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            Portella
-          </h1>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/feed")}>
+            <img src={logoImg} alt="PortellaLens" className="h-8 w-auto" />
+          </div>
           <div className="flex items-center gap-1">
             <NotificationBell userId={user.id} />
             <span className="text-sm font-medium text-muted-foreground hidden md:inline ml-2">
