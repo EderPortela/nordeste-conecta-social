@@ -1,3 +1,5 @@
+import logoImg from "@/assets/logo-portellalens.png";
+
 const Footer = () => {
   return (
     <footer className="bg-card border-t border-border py-12 px-4">
