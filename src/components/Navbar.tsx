@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import logoImg from "@/assets/logo-portellalens.png";
 
 const Navbar = () => {
   return (
