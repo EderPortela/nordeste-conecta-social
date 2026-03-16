@@ -40,7 +40,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>© 2025 Portella. Todos os direitos reservados.</p>
+          <p>© 2025 PortellaLens. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
