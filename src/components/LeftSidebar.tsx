@@ -21,6 +21,7 @@ import {
   Film
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logoImg from "@/assets/logo-portellalens.png";
 
 interface LeftSidebarProps {
   profile?: {
