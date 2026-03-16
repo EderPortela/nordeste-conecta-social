@@ -546,7 +546,7 @@ const Settings = () => {
                       <div>
                         <p className="font-medium">Sair da conta</p>
                         <p className="text-sm text-muted-foreground">
-                          Você será desconectado do Portella
+                          Você será desconectado do PortellaLens
                         </p>
                       </div>
                       <Button variant="outline" onClick={handleLogout}>

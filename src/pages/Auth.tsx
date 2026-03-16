@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import logoImg from "@/assets/logo-portellalens.png";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const Auth = () => {
 
       toast({
         title: "Conta criada com sucesso!",
-        description: "Você já pode começar a usar a Portella, visse?",
+        description: "Você já pode começar a usar a PortellaLens, visse?",
       });
     } catch (error: any) {
       toast({
@@ -100,9 +101,9 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent p-4">
       <Card className="w-full max-w-md shadow-[var(--shadow-soft)]">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
-            Portella
-          </CardTitle>
+          <div className="flex justify-center mb-2">
+            <img src={logoImg} alt="PortellaLens" className="h-10 w-auto" />
+          </div>
           <CardDescription>
             O Nordeste se conecta aqui 🌵
           </CardDescription>

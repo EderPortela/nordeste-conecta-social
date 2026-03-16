@@ -119,11 +119,11 @@ const RightSidebar = () => {
           </Button>
         </div>
 
-        {/* Som da Portella */}
+        {/* Som da PortellaLens */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl shadow-card p-4 border border-primary/20">
           <div className="flex items-center gap-2 mb-4">
             <Music className="h-5 w-5 text-primary" />
-            <h3 className="font-bold text-base">Som da Portella</h3>
+            <h3 className="font-bold text-base">Som da PortellaLens</h3>
           </div>
           <p className="text-xs text-muted-foreground mb-4">
             As melhores do forró e da música nordestina

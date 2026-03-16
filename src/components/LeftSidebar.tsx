@@ -21,6 +21,7 @@ import {
   Film
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logoImg from "@/assets/logo-portellalens.png";
 
 interface LeftSidebarProps {
   profile?: {
@@ -67,9 +68,7 @@ const LeftSidebar = ({ profile, activeRoute = "/feed", onNavigate, onNewPost }: 
       <div className="space-y-4">
         {/* Logo */}
         <div className="px-4 pt-2">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            Portella 🌵
-          </h1>
+          <img src={logoImg} alt="PortellaLens" className="h-8 w-auto" />
         </div>
 
         {/* Menu Principal */}

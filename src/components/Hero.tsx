@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-nordeste.jpg";
+import logoImg from "@/assets/logo-portellalens.png";
 
 const Hero = () => {
   return (
@@ -25,10 +26,8 @@ const Hero = () => {
       <div className="container relative z-10 px-4 py-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Logo/Nome */}
-          <div className="mb-6 animate-fade-in">
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 tracking-tight">
-              Portella
-            </h1>
+          <div className="mb-6 animate-fade-in flex flex-col items-center">
+            <img src={logoImg} alt="PortellaLens" className="h-16 md:h-24 w-auto mb-4" />
             <div className="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-white to-transparent rounded-full" />
           </div>
 
@@ -60,7 +59,7 @@ const Hero = () => {
               className="text-lg px-8 py-6"
               onClick={() => document.querySelector('#funcionalidades')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Conhecer a Portella
+              Conhecer a PortellaLens
             </Button>
           </div>
 

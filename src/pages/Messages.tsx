@@ -370,7 +370,7 @@ const Messages = () => {
                         </AvatarFallback>
                       </Avatar>
                       <p className="font-bold text-lg">{selectedConv.otherUser.display_name}</p>
-                      <p className="text-sm text-muted-foreground">@{selectedConv.otherUser.username} · Portella</p>
+                      <p className="text-sm text-muted-foreground">@{selectedConv.otherUser.username} · PortellaLens</p>
                       <Button variant="outline" size="sm" className="mt-3 rounded-xl"
                         onClick={() => navigate(`/perfil/${selectedConv.otherUser.username}`)}>
                         Ver perfil
