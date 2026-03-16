@@ -57,7 +57,7 @@ const Auth = () => {
 
       toast({
         title: "Conta criada com sucesso!",
-        description: "Você já pode começar a usar a Portella, visse?",
+        description: "Você já pode começar a usar a PortellaLens, visse?",
       });
     } catch (error: any) {
       toast({

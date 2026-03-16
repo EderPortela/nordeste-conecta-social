@@ -41,7 +41,7 @@ const Features = () => {
         {/* Header */}
         <div className="text-center mb-16" id="funcionalidades">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Por que a Portella?
+            Por que a PortellaLens?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Uma rede social que entende e celebra a nossa cultura. 

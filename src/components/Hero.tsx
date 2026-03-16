@@ -59,7 +59,7 @@ const Hero = () => {
               className="text-lg px-8 py-6"
               onClick={() => document.querySelector('#funcionalidades')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Conhecer a Portella
+              Conhecer a PortellaLens
             </Button>
           </div>
 

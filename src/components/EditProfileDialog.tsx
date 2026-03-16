@@ -85,7 +85,7 @@ const EditProfileDialog = ({ open, onOpenChange, profile, onSuccess }: EditProfi
         <DialogHeader>
           <DialogTitle>Editar Perfil</DialogTitle>
           <DialogDescription>
-            Atualize suas informações do Portella
+            Atualize suas informações do PortellaLens
           </DialogDescription>
         </DialogHeader>
         
