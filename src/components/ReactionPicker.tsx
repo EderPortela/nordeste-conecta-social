@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -25,6 +25,16 @@ const ReactionPicker = ({ postId, currentUserId, currentReaction, onReactionChan
   const { toast } = useToast();
   const [showPicker, setShowPicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleEnter = () => {
+    if (hideTimeout.current) clearTimeout(hideTimeout.current);
+    setShowPicker(true);
+  };
+
+  const handleLeave = () => {
+    hideTimeout.current = setTimeout(() => setShowPicker(false), 300);
+  };
 
   const handleReaction = async (reactionType: string) => {
     if (!currentUserId) {
@@ -76,42 +86,39 @@ const ReactionPicker = ({ postId, currentUserId, currentReaction, onReactionChan
   const currentReactionData = reactions.find((r) => r.type === currentReaction);
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
       <Button
         variant="ghost"
         size="sm"
-        onMouseEnter={() => setShowPicker(true)}
-        onMouseLeave={() => setTimeout(() => setShowPicker(false), 200)}
         onClick={() => handleReaction("like")}
         disabled={isLoading}
-        className={cn(currentReaction && "text-primary")}
+        className={cn("px-2", currentReaction && "text-primary")}
       >
         {currentReactionData ? (
-          <currentReactionData.icon className={cn("h-4 w-4 mr-2", currentReactionData.color)} />
+          <currentReactionData.icon className={cn("h-5 w-5", currentReactionData.color)} />
         ) : (
-          <Heart className="h-4 w-4 mr-2" />
+          <Heart className="h-5 w-5" strokeWidth={1.5} />
         )}
-        {currentReactionData?.label || "Reagir"}
       </Button>
 
       {showPicker && (
-        <div
-          className="absolute bottom-full left-0 mb-2 bg-background border rounded-full shadow-lg p-2 flex gap-2 z-10 animate-scale-in"
-          onMouseEnter={() => setShowPicker(true)}
-          onMouseLeave={() => setShowPicker(false)}
-        >
-          {reactions.map((reaction) => (
-            <Button
-              key={reaction.type}
-              variant="ghost"
-              size="icon"
-              onClick={() => handleReaction(reaction.type)}
-              className="hover:scale-125 transition-transform"
-              title={reaction.label}
-            >
-              <reaction.icon className={cn("h-5 w-5", reaction.color)} />
-            </Button>
-          ))}
+        <div className="absolute bottom-full left-0 pb-2 z-50">
+          <div className="bg-background border rounded-full shadow-xl p-1.5 flex gap-1 animate-scale-in">
+            {reactions.map((reaction) => (
+              <button
+                key={reaction.type}
+                onClick={() => handleReaction(reaction.type)}
+                className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-muted hover:scale-125 transition-all duration-150"
+                title={reaction.label}
+              >
+                <reaction.icon className={cn("h-5 w-5", reaction.color)} />
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
