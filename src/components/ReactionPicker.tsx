@@ -99,9 +99,9 @@ const ReactionPicker = ({ postId, currentUserId, currentReaction, onReactionChan
         className={cn("px-2", currentReaction && "text-primary")}
       >
         {currentReactionData ? (
-          <currentReactionData.icon className={cn("h-5 w-5", currentReactionData.color)} />
+          <currentReactionData.icon className={cn("h-6 w-6", currentReactionData.color, currentReactionData.type === "like" || currentReactionData.type === "love" ? "fill-current" : "")} />
         ) : (
-          <Heart className="h-5 w-5" strokeWidth={1.5} />
+          <Heart className="h-6 w-6" strokeWidth={1.5} />
         )}
       </Button>
 

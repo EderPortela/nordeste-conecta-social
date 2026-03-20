@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="md:col-span-2">
-            <img src={logoImg} alt="PortellaLens" className="h-8 w-auto mb-3" />
+            <img src={logoImg} alt="PortellaLens" className="h-12 w-auto mb-3" />
             <p className="text-muted-foreground mb-4">
               A rede social autenticamente nordestina. Conectando pessoas, 
               celebrando cultura.
