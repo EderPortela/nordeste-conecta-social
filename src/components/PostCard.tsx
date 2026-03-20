@@ -100,7 +100,7 @@ const PostCard = ({ post, currentUserId, onUpdate }: PostCardProps) => {
         reaction_type: "like",
       }, { onConflict: "post_id,user_id" });
       setIsLiked(true);
-      setCurrentReaction("❤️");
+      setCurrentReaction("like");
       setLocalLikeCount(prev => prev + 1);
     } catch (e) {
       console.error(e);

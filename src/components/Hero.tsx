@@ -27,7 +27,7 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Logo/Nome */}
           <div className="mb-6 animate-fade-in flex flex-col items-center">
-            <img src={logoImg} alt="PortellaLens" className="h-16 md:h-24 w-auto mb-4" />
+            <img src={logoImg} alt="PortellaLens" className="h-20 md:h-32 w-auto mb-4" />
             <div className="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-white to-transparent rounded-full" />
           </div>
 
