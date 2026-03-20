@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <img src={logoImg} alt="PortellaLens" className="h-12 w-auto" />
+            <img src={logoImg} alt="PortellaLens" className="h-16 w-auto" />
           </div>
 
           {/* Desktop Nav */}
