@@ -32,6 +32,7 @@ const Reels = () => {
   const [savedReels, setSavedReels] = useState<Set<string>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [showCreateReel, setShowCreateReel] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
