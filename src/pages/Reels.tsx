@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, MessageCircle, Send, Music2, Bookmark, MoreVertical, Plus, ChevronLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import BottomNav from "@/components/BottomNav";
+import CreateReel from "@/components/CreateReel";
 
 interface Reel {
   id: string;

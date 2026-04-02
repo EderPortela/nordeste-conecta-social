@@ -94,14 +94,6 @@ const CreateReel = ({ userId, open, onOpenChange, onReelCreated }: CreateReelPro
 
       const { data: urlData } = supabase.storage.from("posts").getPublicUrl(filePath);
 
-      const postData: Record<string, unknown> = {
-        user_id: userId,
-        content: content.trim() || "🎬",
-        hashtags,
-        image_url: mediaType === "image" ? urlData.publicUrl : null,
-        video_url: mediaType === "video" ? urlData.publicUrl : null,
-      };
-
       const { error } = await supabase.from("posts").insert({
         user_id: userId,
         content: content.trim() || "🎬",
