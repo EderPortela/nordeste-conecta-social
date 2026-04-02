@@ -107,7 +107,7 @@ const Feed = () => {
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/feed")}>
-            <img src={logoImg} alt="PortellaLens" className="h-12 w-auto" />
+            <img src={logoImg} alt="PortellaLens" className="h-20 w-auto" />
           </div>
           <div className="flex items-center gap-1">
             <NotificationBell userId={user.id} />
