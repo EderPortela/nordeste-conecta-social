@@ -233,6 +233,15 @@ const Reels = () => {
         activeRoute="/reels"
         onNavigate={(route) => navigate(route)}
       />
+
+      {user && (
+        <CreateReel
+          userId={user.id}
+          open={showCreateReel}
+          onOpenChange={setShowCreateReel}
+          onReelCreated={loadReels}
+        />
+      )}
     </div>
   );
 };
