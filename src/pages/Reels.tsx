@@ -120,7 +120,7 @@ const Reels = () => {
           <ChevronLeft className="h-6 w-6" />
         </Button>
         <h1 className="text-white font-bold text-lg">Reels</h1>
-        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setShowCreateReel(true)}>
           <Plus className="h-6 w-6" />
         </Button>
       </div>
