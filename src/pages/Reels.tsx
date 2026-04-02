@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, MessageCircle, Send, Music2, Bookmark, MoreVertical, Plus, ChevronLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import BottomNav from "@/components/BottomNav";
+import CreateReel from "@/components/CreateReel";
 
 interface Reel {
   id: string;
@@ -31,6 +32,7 @@ const Reels = () => {
   const [savedReels, setSavedReels] = useState<Set<string>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [showCreateReel, setShowCreateReel] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -118,7 +120,7 @@ const Reels = () => {
           <ChevronLeft className="h-6 w-6" />
         </Button>
         <h1 className="text-white font-bold text-lg">Reels</h1>
-        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+        <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setShowCreateReel(true)}>
           <Plus className="h-6 w-6" />
         </Button>
       </div>
@@ -231,6 +233,15 @@ const Reels = () => {
         activeRoute="/reels"
         onNavigate={(route) => navigate(route)}
       />
+
+      {user && (
+        <CreateReel
+          userId={user.id}
+          open={showCreateReel}
+          onOpenChange={setShowCreateReel}
+          onReelCreated={loadReels}
+        />
+      )}
     </div>
   );
 };
