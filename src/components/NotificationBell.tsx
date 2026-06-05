@@ -49,7 +49,7 @@ const typeColors: Record<string, string> = {
   like: "text-secondary",
   comment: "text-primary",
   follow: "text-accent",
-  friend_request: "text-massa",
+  friend_request: "text-primary",
   friend_accepted: "text-accent",
   share: "text-primary",
   event: "text-secondary",
