@@ -24,7 +24,7 @@ All colors MUST be HSL.
     --primary: 28 39% 59%;           /* #c2956b */
     --primary-foreground: 0 0% 100%;
 
-    /* Vermelho sertão preservado para reações */
+    /* Accent vermelho usado em reações/destaques */
     --secondary: 7 74% 54%;
     --secondary-foreground: 0 0% 100%;
 
@@ -44,17 +44,17 @@ All colors MUST be HSL.
 
     --radius: 0.625rem;              /* clean, IG-like cantos suaves */
 
-    /* Cores adicionais para reações */
-    --arretado: 7 74% 54%; /* vermelho sertão */
-    --massa: 35 90% 55%; /* laranja vibrante */
-    --oxente: 48 95% 58%; /* amarelo sol */
-    --cabra-bom: 89 32% 51%; /* verde caatinga */
+    /* Cores extras para reações */
+    --arretado: 7 74% 54%;
+    --massa: 35 90% 55%;
+    --oxente: 48 95% 58%;
+    --cabra-bom: 89 32% 51%;
 
-    /* Gradientes — usados em hero/CTA quando necessário */
+    /* Gradientes utilitários */
     --gradient-hero: linear-gradient(135deg, hsl(28 39% 59%) 0%, hsl(7 74% 54%) 100%);
     --gradient-sunset: linear-gradient(180deg, hsl(35 90% 65%) 0%, hsl(7 74% 54%) 100%);
-    --gradient-caatinga: linear-gradient(135deg, hsl(89 32% 51%) 0%, hsl(42 35% 45%) 100%);
-    --gradient-areia: linear-gradient(180deg, hsl(36 33% 97%) 0%, hsl(33 28% 92%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(28 39% 59%) 0%, hsl(28 30% 45%) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(36 33% 97%) 0%, hsl(33 28% 92%) 100%);
 
     /* Sombras minimalistas (clean) */
     --shadow-soft: 0 1px 2px hsl(0 0% 0% / 0.04);
