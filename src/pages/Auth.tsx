@@ -57,7 +57,7 @@ const Auth = () => {
 
       toast({
         title: "Conta criada com sucesso!",
-        description: "Você já pode começar a usar a PortellaLens, visse?",
+        description: "Você já pode começar a usar a PortellaLens.",
       });
     } catch (error: any) {
       toast({
@@ -105,7 +105,7 @@ const Auth = () => {
             <img src={logoImg} alt="PortellaLens" className="h-10 w-auto" />
           </div>
           <CardDescription>
-            O Nordeste se conecta aqui 🌵
+            Conecte-se. Compartilhe. Descubra.
           </CardDescription>
         </CardHeader>
         <CardContent>
