@@ -307,13 +307,10 @@ const Profile = () => {
                 </div>
               </div>
 
-              {/* Cultural badges */}
+              {/* Badges */}
               <div className="flex gap-2 mt-3 flex-wrap">
-                <Badge variant="secondary" className="text-xs bg-gradient-to-r from-primary/10 to-primary/5 text-primary border-primary/20">
-                  🌵 Nordestino
-                </Badge>
-                <Badge variant="secondary" className="text-xs bg-gradient-to-r from-secondary/10 to-secondary/5 text-secondary border-secondary/20">
-                  🔥 Arretado
+                <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
+                  Membro
                 </Badge>
               </div>
             </div>
