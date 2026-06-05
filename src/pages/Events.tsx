@@ -211,7 +211,7 @@ const Events = () => {
         .eq("event_id", eventId)
         .eq("user_id", user.id);
 
-      toast({ title: "Check-in realizado! 📍", description: "Oxente, você chegou!" });
+      toast({ title: "Check-in realizado! 📍", description: "Você chegou ao evento!" });
       await loadEvents(user.id);
     } catch (error: any) {
       toast({ title: "Erro", description: error.message, variant: "destructive" });
