@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-nordeste.jpg";
 import logoImg from "@/assets/logo-portellalens.png";
 
 const Hero = () => {
@@ -8,19 +7,6 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background com gradiente */}
       <div className="absolute inset-0 bg-[image:var(--gradient-hero)] opacity-95" />
-      
-      {/* Imagem de fundo */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-40"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      />
-
-      {/* Padrão xilogravura sutil */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="h-full w-full" style={{
-          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, hsl(var(--foreground)) 35px, hsl(var(--foreground)) 37px)`
-        }} />
-      </div>
 
       {/* Conteúdo */}
       <div className="container relative z-10 px-4 py-20">
@@ -33,13 +19,13 @@ const Hero = () => {
 
           {/* Slogan */}
           <p className="text-2xl md:text-3xl text-white/95 font-medium mb-8 animate-fade-in-delay-1">
-            O Nordeste se conecta aqui.
+            Conecte-se. Compartilhe. Descubra.
           </p>
 
           {/* Descrição */}
           <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto mb-12 animate-fade-in-delay-2">
-            A rede social autenticamente nordestina. Cultura, arte, música e conexões 
-            que celebram nossa identidade. Vem ser parte dessa história, visse?
+            Uma rede social moderna para conversar com amigos, encontrar pessoas
+            com os mesmos interesses e compartilhar o que importa.
           </p>
 
           {/* CTAs */}
@@ -59,15 +45,8 @@ const Hero = () => {
               className="text-lg px-8 py-6"
               onClick={() => document.querySelector('#funcionalidades')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Conhecer a PortellaLens
+              Saiba mais
             </Button>
-          </div>
-
-          {/* Badge */}
-          <div className="mt-12 animate-fade-in-delay-4">
-            <p className="text-white/70 text-sm">
-              🌵 Feito com orgulho nordestino
-            </p>
           </div>
         </div>
       </div>
