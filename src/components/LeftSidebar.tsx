@@ -8,11 +8,13 @@ import {
   MessageCircle, 
   User, 
   Settings, 
-  Music, 
-  Soup, 
-  Scroll, 
-  Laugh, 
-  Scissors,
+  Music,
+  Utensils,
+  BookOpen,
+  Laugh,
+  Palette,
+  ShoppingBag,
+  Users as UsersIcon,
   MapPin,
   Plus,
   TrendingUp,
@@ -38,8 +40,8 @@ const menuItems = [
   { id: "home", label: "Início", icon: Home, route: "/feed" },
   { id: "discover", label: "Explorar", icon: Search, route: "/descobrir" },
   { id: "reels", label: "Reels", icon: Film, route: "/reels" },
-  { id: "marketplace", label: "Feira Nordestina", icon: Soup, route: "/marketplace" },
-  { id: "communities", label: "Vilarejos", icon: MapPin, route: "/comunidades" },
+  { id: "marketplace", label: "Marketplace", icon: ShoppingBag, route: "/marketplace" },
+  { id: "communities", label: "Comunidades", icon: UsersIcon, route: "/comunidades" },
   { id: "conquistas", label: "Conquistas", icon: Trophy, route: "/conquistas" },
   { id: "events", label: "Eventos", icon: CalendarDays, route: "/eventos" },
   { id: "messages", label: "Mensagens", icon: MessageCircle, route: "/mensagens" },
@@ -48,18 +50,18 @@ const menuItems = [
 ];
 
 const categories = [
-  { id: "musica", label: "Música e Forró", icon: Music, color: "text-primary" },
-  { id: "culinaria", label: "Culinária Nordestina", icon: Soup, color: "text-secondary" },
-  { id: "cordel", label: "Cordel e Cultura", icon: Scroll, color: "text-accent" },
-  { id: "humor", label: "Humor e Memes", icon: Laugh, color: "text-massa" },
-  { id: "artesanato", label: "Artesanato", icon: Scissors, color: "text-cabra-bom" },
+  { id: "musica", label: "Música", icon: Music, color: "text-primary" },
+  { id: "gastronomia", label: "Gastronomia", icon: Utensils, color: "text-secondary" },
+  { id: "literatura", label: "Literatura", icon: BookOpen, color: "text-accent" },
+  { id: "humor", label: "Humor e Memes", icon: Laugh, color: "text-foreground" },
+  { id: "arte", label: "Arte e Design", icon: Palette, color: "text-primary" },
 ];
 
 const trending = [
-  { tag: "CuscuzComOvo", count: "2.3k" },
-  { tag: "Forró2025", count: "1.8k" },
-  { tag: "ArraiáDigital", count: "1.2k" },
-  { tag: "VozesDoSertão", count: "890" },
+  { tag: "Tecnologia", count: "2.3k" },
+  { tag: "Música2025", count: "1.8k" },
+  { tag: "Fotografia", count: "1.2k" },
+  { tag: "Viagem", count: "890" },
 ];
 
 const LeftSidebar = ({ profile, activeRoute = "/feed", onNavigate, onNewPost }: LeftSidebarProps) => {
@@ -113,8 +115,8 @@ const LeftSidebar = ({ profile, activeRoute = "/feed", onNavigate, onNewPost }: 
               </div>
             )}
 
-            <Badge variant="secondary" className="w-full justify-center bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border-primary/20">
-              Cabra Arretado
+            <Badge variant="secondary" className="w-full justify-center bg-primary/10 text-primary border-primary/20">
+              Membro
             </Badge>
 
             <Button 

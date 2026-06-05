@@ -161,12 +161,12 @@ const Feed = () => {
                 </div>
               ) : posts.length === 0 ? (
                 <div className="text-center py-20 px-4">
-                  <div className="text-6xl mb-4">🌵</div>
+                  <div className="text-6xl mb-4">✨</div>
                   <p className="text-lg font-semibold text-foreground mb-2">
-                    Nenhum post ainda, visse?
+                    Nenhum post ainda
                   </p>
                   <p className="text-sm text-muted-foreground mb-6">
-                    Seja o primeiro a compartilhar algo arretado!
+                    Seja o primeiro a compartilhar algo por aqui.
                   </p>
                   <Button onClick={() => setShowCreatePost(true)}>
                     Criar Primeiro Post

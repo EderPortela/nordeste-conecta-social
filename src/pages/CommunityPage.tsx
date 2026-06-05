@@ -399,7 +399,7 @@ const CommunityPage = () => {
                           <li>Seja respeitoso com todos os membros</li>
                           <li>Mantenha as discussões relevantes ao tema da comunidade</li>
                           <li>Não compartilhe conteúdo ofensivo ou inadequado</li>
-                          <li>Valorize a cultura nordestina e suas tradições</li>
+                          <li>Contribua para um ambiente acolhedor e diverso</li>
                         </ul>
                       </div>
                       <Separator />

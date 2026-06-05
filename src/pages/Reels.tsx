@@ -107,7 +107,7 @@ const Reels = () => {
       next.has(reelId) ? next.delete(reelId) : next.add(reelId);
       return next;
     });
-    toast({ title: savedReels.has(reelId) ? "Removido" : "Salvo! 🌵" });
+    toast({ title: savedReels.has(reelId) ? "Removido" : "Salvo!" });
   };
 
   if (!user) return null;

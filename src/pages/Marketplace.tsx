@@ -149,7 +149,7 @@ const Marketplace = () => {
           <div className="col-span-12 lg:col-span-6">
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Feira Nordestina</h1>
+                <h1 className="text-3xl font-bold">Marketplace</h1>
                 <Button variant="outline" onClick={() => navigate("/carrinho")}>
                   <ShoppingCart className="mr-2 h-4 w-4" />
                   Carrinho ({cartCount})
@@ -194,7 +194,7 @@ const Marketplace = () => {
                     <p className="text-muted-foreground mb-6">
                       {searchTerm || selectedCategory !== "all" 
                         ? "Tente ajustar seus filtros de busca" 
-                        : "Seja o primeiro a adicionar produtos na feira!"}
+                        : "Seja o primeiro a adicionar produtos."}
                     </p>
                     <Button onClick={() => {
                       setSearchTerm("");

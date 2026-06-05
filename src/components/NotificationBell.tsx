@@ -49,8 +49,8 @@ const typeColors: Record<string, string> = {
   like: "text-secondary",
   comment: "text-primary",
   follow: "text-accent",
-  friend_request: "text-massa",
-  friend_accepted: "text-cabra-bom",
+  friend_request: "text-primary",
+  friend_accepted: "text-accent",
   share: "text-primary",
   event: "text-secondary",
 };
@@ -173,7 +173,7 @@ const NotificationBell = ({ userId }: NotificationBellProps) => {
             <div className="p-8 text-center">
               <Bell className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
               <p className="text-sm text-muted-foreground">
-                Nenhuma notificação ainda, visse?
+                Nenhuma notificação ainda.
               </p>
             </div>
           ) : (

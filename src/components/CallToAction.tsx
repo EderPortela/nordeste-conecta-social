@@ -5,7 +5,7 @@ const CallToAction = () => {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
       {/* Background com gradiente */}
-      <div className="absolute inset-0 bg-[image:var(--gradient-caatinga)] opacity-95" />
+      <div className="absolute inset-0 bg-[image:var(--gradient-cta)] opacity-95" />
       
       {/* Padrão decorativo */}
       <div className="absolute inset-0 opacity-10">
@@ -21,8 +21,8 @@ const CallToAction = () => {
             Pronto pra fazer parte?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Crie sua conta agora e comece a se conectar com gente da sua terra. 
-            É de graça e leva menos de um minuto, viu?
+            Crie sua conta agora e comece a se conectar.
+            É grátis e leva menos de um minuto.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

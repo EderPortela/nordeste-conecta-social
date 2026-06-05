@@ -9,11 +9,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <img src={logoImg} alt="PortellaLens" className="h-12 w-auto mb-3" />
             <p className="text-muted-foreground mb-4">
-              A rede social autenticamente nordestina. Conectando pessoas, 
-              celebrando cultura.
-            </p>
-            <p className="text-sm text-muted-foreground">
-              🌵 Feito com orgulho no Nordeste
+              Uma rede social moderna para conectar pessoas e compartilhar momentos.
             </p>
           </div>
 

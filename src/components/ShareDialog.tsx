@@ -49,7 +49,7 @@ const ShareDialog = ({
         if (error.code === "23505") {
           toast({
             title: "Já compartilhado!",
-            description: "Você já compartilhou esse post, visse?",
+            description: "Você já compartilhou esse post.",
           });
         } else {
           throw error;

@@ -14,41 +14,41 @@ import {
 } from "lucide-react";
 
 const suggestedProfiles = [
-  { name: "Maria do Cordel", username: "mariacordel", bio: "Poeta e cordelista", location: "Caruaru, PE" },
-  { name: "João Forrozeiro", username: "joaoforró", bio: "Sanfoneiro", location: "Campina Grande, PB" },
-  { name: "Ana Artesã", username: "anaartesa", bio: "Artesanato em barro", location: "Juazeiro, CE" },
+  { name: "Maria Silva", username: "mariasilva", bio: "Designer e ilustradora", location: "São Paulo, SP" },
+  { name: "João Pereira", username: "joaopereira", bio: "Músico independente", location: "Rio de Janeiro, RJ" },
+  { name: "Ana Costa", username: "anacosta", bio: "Fotógrafa e viajante", location: "Curitiba, PR" },
 ];
 
 const culturalEvents = [
-  { title: "Festival de Forró", location: "Caruaru, PE", date: "10-15 Jul" },
-  { title: "Feira de Artesanato", location: "Aracaju, SE", date: "Este fim de semana" },
-  { title: "Lançamento Cordel Digital", location: "Online", date: "Amanhã" },
+  { title: "Festival de Música", location: "São Paulo, SP", date: "10-15 Jul" },
+  { title: "Feira de Design", location: "Belo Horizonte, MG", date: "Este fim de semana" },
+  { title: "Meetup de Fotografia", location: "Online", date: "Amanhã" },
 ];
 
 const feiraProducts = [
-  { name: "Chapéu de Couro", seller: "Arte do Sertão", price: "R$ 89,90" },
-  { name: "Rapadura Artesanal", seller: "Doces da Vó", price: "R$ 12,50" },
-  { name: "Arte em Barro", seller: "Mãos de Mestre", price: "R$ 45,00" },
+  { name: "Caderno Artesanal", seller: "Atelier Lume", price: "R$ 89,90" },
+  { name: "Café Especial 250g", seller: "Torra Local", price: "R$ 32,50" },
+  { name: "Print Fotográfico A3", seller: "Estúdio Norte", price: "R$ 45,00" },
 ];
 
 const news = [
-  { title: "Museu do Cangaço abre nova exposição", location: "Serra Talhada, PE" },
-  { title: "Festival de Cinema Nordestino em agosto", location: "Fortaleza, CE" },
-  { title: "São João 2025: Preparativos começam", location: "Várias cidades" },
+  { title: "Nova exposição de arte contemporânea", location: "São Paulo, SP" },
+  { title: "Festival de cinema independente em agosto", location: "Rio de Janeiro, RJ" },
+  { title: "Inscrições abertas para mostra de design", location: "Online" },
 ];
 
 const RightSidebar = () => {
   return (
     <aside className="hidden xl:block w-80 sticky top-20 h-[calc(100vh-6rem)] overflow-y-auto pl-4">
       <div className="space-y-4">
-        {/* Gente da Terra */}
+        {/* Sugestões para Seguir */}
         <div className="bg-card rounded-2xl shadow-card p-4 border border-border">
           <div className="flex items-center gap-2 mb-4">
             <UserPlus className="h-5 w-5 text-primary" />
-            <h3 className="font-bold text-base">Gente da Terra</h3>
+            <h3 className="font-bold text-base">Sugestões para você</h3>
           </div>
           <p className="text-xs text-muted-foreground mb-4">
-            Siga quem faz o Nordeste brilhar
+            Pessoas que você pode gostar de seguir
           </p>
           <div className="space-y-3">
             {suggestedProfiles.map((user) => (
@@ -74,11 +74,11 @@ const RightSidebar = () => {
           </div>
         </div>
 
-        {/* Cultura em Destaque */}
+        {/* Eventos em Destaque */}
         <div className="bg-card rounded-2xl shadow-card p-4 border border-border">
           <div className="flex items-center gap-2 mb-4">
             <Calendar className="h-5 w-5 text-secondary" />
-            <h3 className="font-bold text-base">Cultura em Destaque</h3>
+            <h3 className="font-bold text-base">Eventos em Destaque</h3>
           </div>
           <div className="space-y-3">
             {culturalEvents.map((event, idx) => (
@@ -96,11 +96,11 @@ const RightSidebar = () => {
           </div>
         </div>
 
-        {/* Feira Nordestina */}
+        {/* Marketplace */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl shadow-card p-4 border border-accent/20">
           <div className="flex items-center gap-2 mb-4">
             <ShoppingBag className="h-5 w-5 text-accent" />
-            <h3 className="font-bold text-base">Feira Nordestina</h3>
+            <h3 className="font-bold text-base">Marketplace</h3>
           </div>
           <div className="space-y-3 mb-4">
             {feiraProducts.map((product, idx) => (
@@ -115,18 +115,18 @@ const RightSidebar = () => {
           </div>
           <Button variant="outline" className="w-full" size="sm">
             <ExternalLink className="mr-2 h-3 w-3" />
-            Ver Feira Completa
+            Ver Marketplace
           </Button>
         </div>
 
-        {/* Som da PortellaLens */}
+        {/* Música em Alta */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl shadow-card p-4 border border-primary/20">
           <div className="flex items-center gap-2 mb-4">
             <Music className="h-5 w-5 text-primary" />
-            <h3 className="font-bold text-base">Som da PortellaLens</h3>
+            <h3 className="font-bold text-base">Música em Alta</h3>
           </div>
           <p className="text-xs text-muted-foreground mb-4">
-            As melhores do forró e da música nordestina
+            As playlists mais ouvidas da semana
           </p>
           <div className="space-y-2 mb-4">
             <div className="flex items-center gap-3 p-2 bg-card/50 rounded-lg">
@@ -134,7 +134,7 @@ const RightSidebar = () => {
                 <Play className="h-4 w-4 text-primary" />
               </div>
               <div className="flex-1">
-                <p className="text-xs font-semibold">Playlist Forró Raiz</p>
+                <p className="text-xs font-semibold">Playlist em Destaque</p>
                 <p className="text-xs text-muted-foreground">42 músicas</p>
               </div>
             </div>
@@ -144,11 +144,11 @@ const RightSidebar = () => {
           </Button>
         </div>
 
-        {/* Notícias do Nordeste */}
+        {/* Notícias */}
         <div className="bg-card rounded-2xl shadow-card p-4 border border-border pb-4">
           <div className="flex items-center gap-2 mb-4">
             <Newspaper className="h-5 w-5 text-secondary" />
-            <h3 className="font-bold text-base">Notícias do Nordeste</h3>
+            <h3 className="font-bold text-base">Notícias</h3>
           </div>
           <div className="space-y-3">
             {news.map((item, idx) => (

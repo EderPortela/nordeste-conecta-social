@@ -59,10 +59,10 @@ interface Event {
 
 const eventCategories = [
   { value: "cultura", label: "🎭 Cultura", color: "bg-primary/10 text-primary" },
-  { value: "forro", label: "🎵 Forró", color: "bg-secondary/10 text-secondary" },
-  { value: "gastronomia", label: "🍽️ Gastronomia", color: "bg-massa/10 text-massa" },
-  { value: "artesanato", label: "✂️ Artesanato", color: "bg-cabra-bom/10 text-cabra-bom" },
-  { value: "religioso", label: "⛪ Religioso", color: "bg-accent/10 text-accent" },
+  { value: "musica", label: "🎵 Música", color: "bg-secondary/10 text-secondary" },
+  { value: "gastronomia", label: "🍽️ Gastronomia", color: "bg-accent/10 text-accent" },
+  { value: "esportes", label: "⚽ Esportes", color: "bg-primary/10 text-primary" },
+  { value: "tecnologia", label: "💻 Tecnologia", color: "bg-secondary/10 text-secondary" },
   { value: "outro", label: "📌 Outro", color: "bg-muted text-muted-foreground" },
 ];
 
@@ -211,7 +211,7 @@ const Events = () => {
         .eq("event_id", eventId)
         .eq("user_id", user.id);
 
-      toast({ title: "Check-in realizado! 📍", description: "Oxente, você chegou!" });
+      toast({ title: "Check-in realizado! 📍", description: "Você chegou ao evento!" });
       await loadEvents(user.id);
     } catch (error: any) {
       toast({ title: "Erro", description: error.message, variant: "destructive" });
@@ -250,10 +250,10 @@ const Events = () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-3xl font-bold text-foreground">
-                  🎭 Eventos Culturais
+                  Eventos
                 </h1>
                 <p className="text-muted-foreground mt-1">
-                  Descubra o que rola no Nordeste
+                  Descubra o que está acontecendo
                 </p>
               </div>
 
