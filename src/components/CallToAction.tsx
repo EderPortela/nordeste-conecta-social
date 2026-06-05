@@ -5,7 +5,7 @@ const CallToAction = () => {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
       {/* Background com gradiente */}
-      <div className="absolute inset-0 bg-[image:var(--gradient-caatinga)] opacity-95" />
+      <div className="absolute inset-0 bg-[image:var(--gradient-cta)] opacity-95" />
       
       {/* Padrão decorativo */}
       <div className="absolute inset-0 opacity-10">
