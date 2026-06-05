@@ -176,7 +176,7 @@ const Conquistas = () => {
                   <h1 className="text-3xl font-bold text-foreground">Conquistas</h1>
                 </div>
                 <p className="text-muted-foreground">
-                  Acompanhe seu progresso e desbloqueie badges explorando a cultura nordestina!
+                  Acompanhe seu progresso e desbloqueie badges interagindo com a comunidade.
                 </p>
               </div>
             </div>
