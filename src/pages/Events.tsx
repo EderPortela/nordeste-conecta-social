@@ -250,10 +250,10 @@ const Events = () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-3xl font-bold text-foreground">
-                  🎭 Eventos Culturais
+                  Eventos
                 </h1>
                 <p className="text-muted-foreground mt-1">
-                  Descubra o que rola no Nordeste
+                  Descubra o que está acontecendo
                 </p>
               </div>
 
