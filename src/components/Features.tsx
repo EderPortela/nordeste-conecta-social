@@ -5,32 +5,32 @@ const features = [
   {
     icon: Users,
     title: "Conexões Autênticas",
-    description: "Conecte-se com pessoas que compartilham o orgulho nordestino e a cultura da nossa terra."
+    description: "Conecte-se com pessoas que compartilham seus interesses e paixões."
   },
   {
     icon: Hash,
     title: "Tendências Regionais",
-    description: "Acompanhe o que está bombando: #forró #cuscuz #oxente #literaturaDecordel e muito mais."
+    description: "Acompanhe os assuntos do momento e descubra novas hashtags todos os dias."
   },
   {
     icon: Store,
-    title: "Feira Nordestina",
-    description: "Espaço especial para artistas, artesãos e empreendedores divulgarem seus produtos."
+    title: "Marketplace",
+    description: "Um espaço para criadores e empreendedores divulgarem seus produtos."
   },
   {
     icon: Heart,
-    title: "Cultura Viva",
-    description: "Compartilhe música, arte, receitas e tradições que fazem do Nordeste único."
+    title: "Conteúdo Vivo",
+    description: "Compartilhe fotos, vídeos, reels e momentos com sua comunidade."
   },
   {
     icon: MessageCircle,
-    title: "Conversas de Comadre",
-    description: "Chat direto para manter aquela prosa boa com quem você gosta."
+    title: "Mensagens Diretas",
+    description: "Converse em tempo real com amigos em chats privados e em grupo."
   },
   {
     icon: Sparkles,
     title: "Destaque para Criadores",
-    description: "Sistema especial para valorizar quem produz conteúdo de qualidade sobre nossa região."
+    description: "Ferramentas para valorizar quem produz conteúdo de qualidade."
   }
 ];
 
@@ -44,8 +44,8 @@ const Features = () => {
             Por que a PortellaLens?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Uma rede social que entende e celebra a nossa cultura. 
-            Aqui você encontra seu povo, sua voz e sua identidade.
+            Uma rede social pensada para conexões reais.
+            Aqui você encontra sua comunidade, sua voz e seu espaço.
           </p>
         </div>
 
@@ -74,10 +74,10 @@ const Features = () => {
         {/* CTA Bottom */}
         <div className="mt-16 text-center">
           <p className="text-2xl font-medium text-foreground mb-2">
-            Arretado demais, né?
+            Bom demais, né?
           </p>
           <p className="text-muted-foreground">
-            Junte-se a comunidade que cresce a cada dia.
+            Junte-se à comunidade que cresce a cada dia.
           </p>
         </div>
       </div>
