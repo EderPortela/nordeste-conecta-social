@@ -16,25 +16,25 @@ interface UserBadge {
 }
 
 const badgeIcons: Record<string, string> = {
-  cordel_iniciante: "📜",
-  cordel_mestre: "🎭",
-  explorador_sertao: "🌵",
+  cordel_iniciante: "✍️",
+  cordel_mestre: "📚",
+  explorador_sertao: "🧭",
   feirante_arretado: "🛍️",
   viajante_cultural: "✈️",
   contador_causos: "📖",
   influencer_nordestino: "⭐",
-  guardiao_tradicoes: "🏛️"
+  guardiao_tradicoes: "🏆"
 };
 
 const badgeNames: Record<string, string> = {
-  cordel_iniciante: "Cordel Iniciante",
-  cordel_mestre: "Cordel Mestre",
-  explorador_sertao: "Explorador do Sertão",
-  feirante_arretado: "Feirante Arretado",
-  viajante_cultural: "Viajante Cultural",
-  contador_causos: "Contador de Causos",
-  influencer_nordestino: "Influencer Nordestino",
-  guardiao_tradicoes: "Guardião das Tradições"
+  cordel_iniciante: "Primeiro Post",
+  cordel_mestre: "Autor Prolífico",
+  explorador_sertao: "Explorador",
+  feirante_arretado: "Vendedor",
+  viajante_cultural: "Conector",
+  contador_causos: "Contador de Histórias",
+  influencer_nordestino: "Influenciador",
+  guardiao_tradicoes: "Veterano"
 };
 
 interface GamificationBadgeProps {
