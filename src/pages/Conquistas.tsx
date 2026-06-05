@@ -37,32 +37,32 @@ interface Profile {
 }
 
 const badgeIcons: Record<string, string> = {
-  cordel_iniciante: "📜",
-  cordel_mestre: "🎭",
-  explorador_sertao: "🌵",
+  cordel_iniciante: "✍️",
+  cordel_mestre: "📚",
+  explorador_sertao: "🧭",
   feirante_arretado: "🛍️",
   viajante_cultural: "✈️",
   contador_causos: "📖",
   influencer_nordestino: "⭐",
-  guardiao_tradicoes: "🏛️"
+  guardiao_tradicoes: "🏆"
 };
 
 const badgeNames: Record<string, string> = {
-  cordel_iniciante: "Cordel Iniciante",
-  cordel_mestre: "Cordel Mestre",
-  explorador_sertao: "Explorador do Sertão",
-  feirante_arretado: "Feirante Arretado",
-  viajante_cultural: "Viajante Cultural",
-  contador_causos: "Contador de Causos",
-  influencer_nordestino: "Influencer Nordestino",
-  guardiao_tradicoes: "Guardião das Tradições"
+  cordel_iniciante: "Primeiro Post",
+  cordel_mestre: "Autor Prolífico",
+  explorador_sertao: "Explorador",
+  feirante_arretado: "Vendedor",
+  viajante_cultural: "Conector",
+  contador_causos: "Contador de Histórias",
+  influencer_nordestino: "Influenciador",
+  guardiao_tradicoes: "Veterano"
 };
 
 const badgeDescriptions: Record<string, string> = {
-  cordel_iniciante: "Publique seu primeiro post com temática nordestina",
-  cordel_mestre: "Publique 50 posts de literatura de cordel",
-  explorador_sertao: "Visite 10 perfis de usuários diferentes",
-  feirante_arretado: "Cadastre seu primeiro produto na Feira Nordestina",
+  cordel_iniciante: "Publique seu primeiro post",
+  cordel_mestre: "Publique 50 posts",
+  explorador_sertao: "Visite 10 perfis diferentes",
+  feirante_arretado: "Cadastre seu primeiro produto no marketplace",
   viajante_cultural: "Participe de 5 comunidades diferentes",
   contador_causos: "Receba 100 curtidas em seus posts",
   influencer_nordestino: "Alcance 500 seguidores",
