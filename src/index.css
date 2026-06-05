@@ -8,42 +8,41 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Paleta Nordestina - Portella */
-    
-    /* Areia - fundo neutro e quente #FBE9C8 */
-    --background: 42 52% 89%;
-    --foreground: 20 15% 20%;
+    /* PortellaLens — Warm Sand clean (Instagram-like) */
+    /* #faf8f5 background, #f0ebe3 surface, #262626 ink, #c2956b accent */
+
+    --background: 36 33% 97%;        /* #faf8f5 */
+    --foreground: 0 0% 15%;          /* #262626 */
 
     --card: 0 0% 100%;
-    --card-foreground: 20 15% 20%;
+    --card-foreground: 0 0% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 15% 20%;
+    --popover-foreground: 0 0% 15%;
 
-    /* Azul céu - links e botões #3BA9FF */
-    --primary: 204 100% 62%;
+    /* Accent terracota/clay como botão principal */
+    --primary: 28 39% 59%;           /* #c2956b */
     --primary-foreground: 0 0% 100%;
-    
-    /* Vermelho sertão - destaques e reações #E24532 */
+
+    /* Vermelho sertão preservado para reações */
     --secondary: 7 74% 54%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Areia suave - elementos sutis */
-    --muted: 42 52% 89%;
-    --muted-foreground: 20 15% 45%;
+    /* Surface suave bege */
+    --muted: 33 28% 92%;             /* #f0ebe3 */
+    --muted-foreground: 0 0% 40%;
 
-    /* Verde caatinga - confirmações #78A75A */
-    --accent: 89 32% 51%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 33 28% 92%;
+    --accent-foreground: 0 0% 15%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 74% 54%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 42 25% 82%;
-    --input: 42 20% 90%;
-    --ring: 204 100% 62%;
+    --border: 33 18% 86%;
+    --input: 33 22% 92%;
+    --ring: 28 39% 59%;
 
-    --radius: 1rem;
+    --radius: 0.625rem;              /* clean, IG-like cantos suaves */
 
     /* Cores adicionais para reações */
     --arretado: 7 74% 54%; /* vermelho sertão */
@@ -51,17 +50,17 @@ All colors MUST be HSL.
     --oxente: 48 95% 58%; /* amarelo sol */
     --cabra-bom: 89 32% 51%; /* verde caatinga */
 
-    /* Gradientes nordestinos */
-    --gradient-hero: linear-gradient(135deg, hsl(204 100% 62%) 0%, hsl(7 74% 54%) 100%);
+    /* Gradientes — usados em hero/CTA quando necessário */
+    --gradient-hero: linear-gradient(135deg, hsl(28 39% 59%) 0%, hsl(7 74% 54%) 100%);
     --gradient-sunset: linear-gradient(180deg, hsl(35 90% 65%) 0%, hsl(7 74% 54%) 100%);
     --gradient-caatinga: linear-gradient(135deg, hsl(89 32% 51%) 0%, hsl(42 35% 45%) 100%);
-    --gradient-areia: linear-gradient(180deg, hsl(42 52% 89%) 0%, hsl(42 40% 85%) 100%);
+    --gradient-areia: linear-gradient(180deg, hsl(36 33% 97%) 0%, hsl(33 28% 92%) 100%);
 
-    /* Sombras com identidade */
-    --shadow-soft: 0 2px 12px -2px hsl(20 15% 20% / 0.08);
-    --shadow-card: 0 4px 20px -4px hsl(20 15% 20% / 0.12);
-    --shadow-glow: 0 0 40px hsl(204 100% 62% / 0.35);
-    --shadow-hover: 0 8px 30px -8px hsl(20 15% 20% / 0.18);
+    /* Sombras minimalistas (clean) */
+    --shadow-soft: 0 1px 2px hsl(0 0% 0% / 0.04);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.04);
+    --shadow-glow: 0 0 0 1px hsl(28 39% 59% / 0.25);
+    --shadow-hover: 0 4px 16px -6px hsl(0 0% 0% / 0.10);
 
     /* Animações */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,43 +68,43 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 20 25% 12%;
-    --foreground: 42 25% 95%;
+    --background: 0 0% 7%;
+    --foreground: 36 20% 95%;
 
-    --card: 20 20% 16%;
-    --card-foreground: 42 25% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 36 20% 95%;
 
-    --popover: 20 20% 16%;
-    --popover-foreground: 42 25% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 36 20% 95%;
 
-    --primary: 204 100% 65%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 28 45% 62%;
+    --primary-foreground: 0 0% 10%;
 
     --secondary: 7 74% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 20 15% 25%;
-    --muted-foreground: 42 20% 70%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 36 12% 70%;
 
-    --accent: 89 32% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 0 0% 14%;
+    --accent-foreground: 36 20% 95%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 74% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 20 15% 25%;
-    --input: 20 15% 25%;
-    --ring: 204 100% 65%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 28 45% 62%;
 
     --arretado: 7 74% 60%;
     --massa: 35 90% 60%;
     --oxente: 48 95% 62%;
     --cabra-bom: 89 32% 55%;
 
-    --shadow-soft: 0 2px 12px -2px hsl(0 0% 0% / 0.25);
-    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.35);
-    --shadow-glow: 0 0 40px hsl(204 100% 65% / 0.4);
-    --shadow-hover: 0 8px 30px -8px hsl(0 0% 0% / 0.45);
+    --shadow-soft: 0 1px 2px hsl(0 0% 0% / 0.35);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.45);
+    --shadow-glow: 0 0 0 1px hsl(28 45% 62% / 0.4);
+    --shadow-hover: 0 6px 20px -6px hsl(0 0% 0% / 0.6);
   }
 }
 
@@ -115,7 +114,11 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
   }
 }
 
