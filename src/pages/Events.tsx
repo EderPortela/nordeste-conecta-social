@@ -59,10 +59,10 @@ interface Event {
 
 const eventCategories = [
   { value: "cultura", label: "🎭 Cultura", color: "bg-primary/10 text-primary" },
-  { value: "forro", label: "🎵 Forró", color: "bg-secondary/10 text-secondary" },
-  { value: "gastronomia", label: "🍽️ Gastronomia", color: "bg-massa/10 text-massa" },
-  { value: "artesanato", label: "✂️ Artesanato", color: "bg-cabra-bom/10 text-cabra-bom" },
-  { value: "religioso", label: "⛪ Religioso", color: "bg-accent/10 text-accent" },
+  { value: "musica", label: "🎵 Música", color: "bg-secondary/10 text-secondary" },
+  { value: "gastronomia", label: "🍽️ Gastronomia", color: "bg-accent/10 text-accent" },
+  { value: "esportes", label: "⚽ Esportes", color: "bg-primary/10 text-primary" },
+  { value: "tecnologia", label: "💻 Tecnologia", color: "bg-secondary/10 text-secondary" },
   { value: "outro", label: "📌 Outro", color: "bg-muted text-muted-foreground" },
 ];
 
